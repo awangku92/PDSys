@@ -9,7 +9,6 @@ public class Status
 		$this->setStatusSetail($StatusSetail);
 	}
 	
-	public $StatusID;
 	public function setStatusID($newval)
 	  {
 	      $this->StatusID = $newval;
@@ -20,7 +19,6 @@ public class Status
 	      return $this->StatusID;
 	  }
 
-	public $StatusSetail;
 	public function setStatusSetail($newval)
 	  {
 	      $this->StatusSetail = $newval;
