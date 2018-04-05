@@ -2,7 +2,14 @@
  
 public class Category
 {
-	public $CategoryID;
+	var $CategoryID, $CategoryType, $Priority;
+	
+	public function __construct($CategoryID, $CategoryType, $Priority) {
+		$this->setCategoryID($CategoryID);
+		$this->setCategoryType($CategoryType);
+		$this->setPriority($Priority);
+	}
+	
 	public function setCategoryID($newval)
 	  {
 	      $this->CategoryID = $newval;
@@ -13,7 +20,6 @@ public class Category
 	      return $this->CategoryID;
 	  }
 
-	public $CategoryType;
 	public function setCategoryType($newval)
 	  {
 	      $this->CategoryType = $newval;
@@ -23,8 +29,7 @@ public class Category
 	  {
 	      return $this->CategoryType;
 	  }
-
-	public $Priority;
+	
 	public function setPriority($newval)
 	  {
 	      $this->Priority = $newval;
