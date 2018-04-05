@@ -2,7 +2,12 @@
  
 public class UserType
 {
-	public $UserType;
+	var $UserType;
+	
+	public function __construct($UserType) {
+		$this->setBranchesID($UserType);
+	}
+	
 	public function setUserType($newval)
 	  {
 	      $this->UserType = $newval;
