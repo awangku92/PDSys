@@ -2,7 +2,18 @@
  
 public class Branches
 {
-	public $BranchesID;
+	var $BranchesID, $UID, $Address1, $Address2, $Postcode, $State, $Region;
+
+	public function __construct($BranchesID, $UID, $Address1, $Address2, $Postcode, $State, $Region) {
+		$this->setBranchesID($BranchesID);
+		$this->setUID($UID);
+		$this->setAddress1($Address1);
+		$this->setAddress2($Address2);
+		$this->setPostcode($Postcode);
+		$this->setState($State);
+		$this->setRegion($Region);
+	}
+	
 	public function setBranchesID($newval)
 	  {
 	      $this->BranchesID = $newval;
@@ -13,7 +24,6 @@ public class Branches
 	      return $this->BranchesID;
 	  }
 
-	public $UID;
 	public function setUID($newval)
 	  {
 	      $this->UID = $newval;
@@ -24,7 +34,6 @@ public class Branches
 	      return $this->UID;
 	  }
 
-	public $Address1;
 	public function setAddress1($newval)
 	  {
 	      $this->Address1 = $newval;
@@ -35,7 +44,6 @@ public class Branches
 	      return $this->Address1;
 	  }
 
-	public $Address2;
 	public function setAddress2($newval)
 	  {
 	      $this->Address2 = $newval;
@@ -45,8 +53,7 @@ public class Branches
 	  {
 	      return $this->Address2;
 	  }
-
-	public $Postcode;
+	
 	public function setPostcode($newval)
 	  {
 	      $this->Postcode = $newval;
@@ -56,8 +63,7 @@ public class Branches
 	  {
 	      return $this->Postcode;
 	  }
-
-	public $State;
+	
 	public function setState($newval)
 	  {
 	      $this->State = $newval;
@@ -68,7 +74,6 @@ public class Branches
 	      return $this->State;
 	  }
 
-	public $Region;
 	public function setRegion($newval)
 	  {
 	      $this->Region = $newval;
