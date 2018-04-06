@@ -2,7 +2,20 @@
  
 public class Ticket
 {
-	public $UID;
+	var $UID, $TicketID, $SearchID, $DateTime, $BranchID, $CategoryID, $StatusID, $Detail, $UIDContractor;
+	
+	public function __construct($UID, $TicketID, $SearchID, $DateTime, $BranchID, $CategoryID, $StatusID, $Detail, $UIDContractor) {
+		$this->setUID($UID);
+		$this->setTicketID($TicketID);
+		$this->setSearchID($SearchID);
+		$this->setDateTime($DateTime);
+		$this->setBranchID($BranchID);
+		$this->setCategoryID($CategoryID);
+		$this->setStatusID($StatusID);
+		$this->setDetail($Detail);
+		$this->setUIDContractor($UIDContractor);
+	}
+	
 	public function setUID($newval)
 	  {
 	      $this->UID = $newval;
@@ -13,7 +26,6 @@ public class Ticket
 	      return $this->UID;
 	  }
 
-	public $TicketID;
 	public function setTicketID($newval)
 	  {
 	      $this->TicketID = $newval;
@@ -24,7 +36,6 @@ public class Ticket
 	      return $this->TicketID;
 	  }
 
-	public $SearchID;
 	public function setSearchID($newval)
 	  {
 	      $this->SearchID = $newval;
@@ -35,7 +46,6 @@ public class Ticket
 	      return $this->SearchID;
 	  }
 
-	public $DateTime;
 	public function setDateTime($newval)
 	  {
 	      $this->DateTime = $newval;
@@ -46,7 +56,6 @@ public class Ticket
 	      return $this->DateTime;
 	  }
 
-	public $BranchID;
 	public function setBranchID($newval)
 	  {
 	      $this->BranchID = $newval;
@@ -57,7 +66,6 @@ public class Ticket
 	      return $this->BranchID;
 	  }
 
-	public $CategoryID;
 	public function setCategoryID($newval)
 	  {
 	      $this->CategoryID = $newval;
@@ -68,7 +76,6 @@ public class Ticket
 	      return $this->CategoryID;
 	  }
 
-	public $StatusID;
 	public function setStatusID($newval)
 	  {
 	      $this->StatusID = $newval;
@@ -79,7 +86,6 @@ public class Ticket
 	      return $this->StatusID;
 	  }
 
-	public $Detail;
 	public function setDetail($newval)
 	  {
 	      $this->Detail = $newval;
@@ -90,7 +96,6 @@ public class Ticket
 	      return $this->Detail;
 	  }
 
-	public $UIDContractor;
 	public function setUIDContractor($newval)
 	  {
 	      $this->UIDContractor = $newval;

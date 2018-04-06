@@ -2,7 +2,18 @@
  
 public class LogTickets
 {
-	public $TicketID;
+	var $TicketID, $UID, $DateTime, $PostponeDateTime, $StatusID, $Reason, $UIDContractor;
+	
+	public function __construct($TicketID, $UID, $DateTime, $PostponeDateTime, $StatusID, $Reason, $UIDContractor) {
+		$this->setTicketID($TicketID);
+		$this->setUID($UID);
+		$this->setDateTime($DateTime);
+		$this->setPostponeDateTime($PostponeDateTime);
+		$this->setStatusID($StatusID);
+		$this->setReason($Reason);
+		$this->setUIDContractor($UIDContractor);
+	}
+	
 	public function setTicketID($newval)
 	  {
 	      $this->TicketID = $newval;
@@ -13,7 +24,6 @@ public class LogTickets
 	      return $this->TicketID;
 	  }
 
-	public $UID;
 	public function setUID($newval)
 	  {
 	      $this->UID = $newval;
@@ -24,7 +34,6 @@ public class LogTickets
 	      return $this->UID;
 	  }
 
-	public $DateTime;
 	public function setDateTime($newval)
 	  {
 	      $this->DateTime = $newval;
@@ -35,7 +44,6 @@ public class LogTickets
 	      return $this->DateTime;
 	  }
 
-	public $PostponeDateTime;
 	public function setPostponeDateTime($newval)
 	  {
 	      $this->PostponeDateTime = $newval;
@@ -45,8 +53,7 @@ public class LogTickets
 	  {
 	      return $this->PostponeDateTime;
 	  }
-
-	public $StatusID;
+	
 	public function setStatusID($newval)
 	  {
 	      $this->StatusID = $newval;
@@ -57,7 +64,6 @@ public class LogTickets
 	      return $this->StatusID;
 	  }
 
-	public $Reason;
 	public function setReason($newval)
 	  {
 	      $this->Reason = $newval;
@@ -68,7 +74,6 @@ public class LogTickets
 	      return $this->Reason;
 	  }
 
-	public $UIDContractor;
 	public function setUIDContractor($newval)
 	  {
 	      $this->UIDContractor = $newval;
