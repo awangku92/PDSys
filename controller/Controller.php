@@ -19,23 +19,25 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	require __DIR__ . '/UserController.php';
 	require __DIR__ . '/../model/UserModelClass.php';
 
-	$username = $_POST['username'];
+	$email = $_POST['email'];
 	$password = $_POST['password'];
 
 	$crendential = new UserController();
-	$userType = $crendential->login($username,$password);
+	$userType = $crendential->login($email,$password);
 
 	if ($userType === "HQ"){
-		header("Location: /PdagangSystem/hq_index.php");
+		// header("Location: /PdagangSystem/hq_index.php");
+		header("Location: /PdagangSystem/hq_view_ticket.html");
 		die();
 	} else if ($userType === "D") {
-		header("Location: /PdagangSystem/dealer_index.php");
+		//header("Location: /PdagangSystem/dealer_index.php");
+		header("Location: /PdagangSystem/dealer_view_ticket.html");
 		die();
 	} else if ($userType === "C") {
-		header("Location: /PdagangSystem/c_index.php");
+		//header("Location: /PdagangSystem/c_index.php");
+		header("Location: /PdagangSystem/contractor_view_ticket.html");
 		die();
-	}
-
+	} 
 } else if ( strpos($operation, 'Register') !== false ){
 	
 	require __DIR__ . '/UserController.php';
@@ -50,11 +52,11 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$state       = $_POST['state'];
 	$postalcode  = $_POST['postalcode'];
 	$region      = $_POST['region'];
-	$username    = $_POST['username'];
+	$email       = $_POST['email'];
 	$password    = $_POST['password'];
 
 	$registeration = new UserController();
-	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $username, $password);
+	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password);
 
 	header("Location: /PdagangSystem/");
 }

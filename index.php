@@ -2,14 +2,19 @@
 <html>
 <head>
 	<title>PDagang</title>
+
+	<script type="text/javascript">
+	    var urlParams = new URLSearchParams(window.location.search);
+	  	urlParams.get('status') ? alert('Invalid account') : "";
+	</script>
 </head>
 
 <body>
 	<form method="post" action="controller/Controller.php" autocomplete="off">
 		<table border="4">
 			<tr>
-				<td>Username</td>
-				<td><input type="text" name="username"></td>
+				<td>Email</td>
+				<td><input type="text" name="email"></td>
 			</tr>
 			<tr>
 				<td>Password</td>
@@ -99,12 +104,12 @@
 				</td>
 			</tr>
 			<tr>
-				<td>Username*</td>
-				<td><input type="text" name="username"></td>
+				<td>Email*</td>
+				<td><input type="text" name="email" autocomplete="off"></td>
 			</tr>		
 			<tr>
 				<td>Password*</td>
-				<td><input type="password" name="password"></td>
+				<td><input type="password" name="password" autocomplete="off"></td>
 			</tr>	
 			<tr>
 				<td></td>

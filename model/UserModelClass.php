@@ -2,11 +2,11 @@
 
 class User {
 
-	var $UID, $Username, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact;
+	var $UID, $Email, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact;
 
-	public function __construct($UID, $Username, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact) {
+	public function __construct($UID, $Email, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact) {
 		$this->setUID($UID);
-		$this->setUsername($Username);
+		$this->setEmail($Email);
 		$this->setPassword($Password);
 		$this->setUserType($UserType);
 		$this->setCompanyName($CompanyName);
@@ -29,13 +29,13 @@ class User {
 		return $this->UID;
 	}
 
-	// username
-	public function setUsername($newval) {
-		$this->Username = $newval;
+	// email
+	public function setEmail($newval) {
+		$this->Email = $newval;
 	}
 
-	public function getUsername() {
-		return $this->Username;
+	public function getEmail() {
+		return $this->Email;
 	}
 	
 	// password
