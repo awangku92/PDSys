@@ -4,16 +4,35 @@
 	<link rel="icon" href="./icon/favicon_logo.ico" type="image/x-icon">
 	<title>PETRONAS DAGANGAN BERHAD</title>
 
-	<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-	<link href="./css/bootstrap.min.css" rel="stylesheet">
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- 	<link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/font-awesome.min.css" rel="stylesheet">
+    <link href="./css/alertify.min.css" rel="stylesheet"> -->
     <link href="./css/main.css" rel="stylesheet">
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- 	<script src="./js/jquery-3.2.1.min.js"></script>
+	<script src="./js/alertify.min.js"></script> -->
 
     <script type="text/javascript">
 	    var urlParams = new URLSearchParams(window.location.search);
-	  	urlParams.get('status') ? alert('Invalid account') : "";
+	    $(function() {
+	  		(urlParams.get('status') === "error") ? alertify.error('Invalid account') : alertify.success('Register success'); //alert('Invalid account'); 
+	  	});
+	  	// $( document ).ready(function() {
+    //     	alertify.success('Normal message');
+    // 	});
 	</script>
+
+<!--     <script>
+		$(function() {
+		    alertify.success('Normal message');
+		});
+    </script> -->
 </head>
 <body>
 
@@ -77,28 +96,28 @@
 							<div class="input-group col-sm-3">
 								<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_shake.png"></span>
 								<select class="form-control user-type" id="usertype" onchange="javascript: showform();" name="usertype">
-									<option value="hq">HQ</option>
-									<option value="dealer">Dealer</option>
-									<option value="contractor">Contractor</option>
+									<option value="HQ">HQ</option>
+									<option value="D">Dealer</option>
+									<option value="C">Contractor</option>
 								</select>
 							</div>
 
 							<div id="hq">
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_user.png"></span>
-									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullname">
+									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullnameH">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_mail.png"></span>
-									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="email">
+									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="emailH">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_lock.png"></span>
-									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="password">
+									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="passwordH">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_tel.png"></span>
-									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactno">
+									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactnoH">
 								</div>
 							</div>
 
@@ -176,6 +195,7 @@
 								<div class="submit-case">
 									<!-- <button class="submit-btn" type="submit" value="Submit">REGISTER NOW</button> -->
 									 <button class="submit-btn" type="submit" value="Register" name="operation">REGISTER NOW</button>
+									 <!-- <input type="submit" class="submit-btn" value="Register" name="operation"> -->
 								</div>
 							</div>
 							
@@ -190,11 +210,11 @@
 		<p><i class="fa fa-copyright"></i> Copyright Reserved Petronas Trading @ 2018. Best viewed using Google Chrome's web browser.</p>
 	</footer>
 
-
-	<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-    <script src="./js/jquery-3.2.1.min.js"></script>
+    <!-- JavaScript -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+    
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
+
 </body>
 </html>

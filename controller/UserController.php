@@ -27,7 +27,7 @@ class UserController {
 
       //header("Location: /PdagangSystem/");
       $err = "error";
-      header("Location: /PdagangSystem/?status=$err");
+      header("Location: /PdagangSystem/register_login.html?status=$err");
 
       die();
     }
@@ -61,9 +61,9 @@ class UserController {
     $stmt = $conn->prepare($sql);
 
     if ($usertype === "C" or $usertype === "D"){
-      $stmt->bind_param("ssssssissss", $email, $password, $usertype, $companyname, $compaddr1, $compaddr2, $postalcode, $state, $region, $fullname, $contact);
+      $stmt->bind_param("ssssssissss", $email, $password, $usertype, $companyname, $compaddr1, $compaddr2, $postalcode, $state, $region, $fullname, $contactno);
     } else if ($usertype === "HQ"){
-      $stmt->bind_param("sssss", $email, $password, $usertype, $fullname, $contact);
+      $stmt->bind_param("sssss", $email, $password, $usertype, $fullname, $contactno);
     }
 
     $stmt->execute();

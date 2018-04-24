@@ -13,3 +13,5 @@ if ($user->getUserType() !== "HQ"){
 var_dump( $user );
 
 echo "<br><br>Welcome to HQ_Homepage";
+
+?>

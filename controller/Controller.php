@@ -43,22 +43,33 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	require __DIR__ . '/UserController.php';
 	require __DIR__ . '/../model/UserModelClass.php';
 
+	if ($_POST['usertype'] === "HQ") {
+		$fullname    = $_POST['fullnameH'];
+		$contactno   = $_POST['contactnoH'];
+		$email       = $_POST['emailH'];
+		$password    = $_POST['passwordH'];
+	} else {
+		$fullname    = $_POST['fullname'];
+		$contactno   = $_POST['contactno'];
+		$email       = $_POST['email'];
+		$password    = $_POST['password'];
+	}
+
 	$usertype    = $_POST['usertype'];
-	$fullname    = $_POST['fullname'];
-	$contactno   = $_POST['contactno'];
 	$companyname = $_POST['companyname'];
 	$compaddr1   = $_POST['compaddr1'];
 	$compaddr2   = $_POST['compaddr2'];
 	$state       = $_POST['state'];
 	$postalcode  = $_POST['postalcode'];
+
+	//hardcode region
 	$region      = $_POST['region'];
-	$email       = $_POST['email'];
-	$password    = $_POST['password'];
 
 	$registeration = new UserController();
 	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password);
 
-	header("Location: /PdagangSystem/");
+	$status = "success";
+	header("Location: /PdagangSystem/status=$status");
 }
 
 
