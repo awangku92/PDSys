@@ -27,15 +27,15 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 
 	if ($userType === "HQ"){
 		// header("Location: /PdagangSystem/hq_index.php");
-		header("Location: /PdagangSystem/hq_view_ticket.html");
+		header("Location: /PdagangSystem/hq_view_ticket.php");
 		die();
 	} else if ($userType === "D") {
 		//header("Location: /PdagangSystem/dealer_index.php");
-		header("Location: /PdagangSystem/dealer_view_ticket.html");
+		header("Location: /PdagangSystem/dealer_view_ticket.php");
 		die();
 	} else if ($userType === "C") {
 		//header("Location: /PdagangSystem/c_index.php");
-		header("Location: /PdagangSystem/contractor_view_ticket.html");
+		header("Location: /PdagangSystem/contractor_view_ticket.php");
 		die();
 	} 
 } else if ( strpos($operation, 'Register') !== false ){
@@ -59,10 +59,10 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$companyname = $_POST['companyname'];
 	$compaddr1   = $_POST['compaddr1'];
 	$compaddr2   = $_POST['compaddr2'];
-	$state       = $_POST['state'];
 	$postalcode  = $_POST['postalcode'];
 
-	//hardcode region
+	//hardcode region, from state
+	$state       = $_POST['state'];
 	$region      = $_POST['region'];
 
 	$registeration = new UserController();
