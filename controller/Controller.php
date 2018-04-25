@@ -61,9 +61,11 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$compaddr2   = $_POST['compaddr2'];
 	$postalcode  = $_POST['postalcode'];
 
-	//hardcode region, from state
+	//hardcode region, get from state
 	$state       = $_POST['state'];
-	$region      = $_POST['region'];
+	//$region      = $_POST['region'];
+	$data = new GeneralController();
+	$region = $data->getRegion($state);
 
 	$registeration = new UserController();
 	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password);

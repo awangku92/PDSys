@@ -1,6 +1,6 @@
 <?php
  
-public class Ticket
+class Ticket
 {
 	var $UID, $TicketID, $SearchID, $DateTime, $BranchID, $CategoryID, $StatusID, $Detail, $UIDContractor;
 	
