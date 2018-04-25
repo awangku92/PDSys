@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__ . '/model/UserModelClass.php';
+
 session_start();
 
 //call ticket
