@@ -173,7 +173,7 @@
 										<option value="Terengganu">Terengganu</option>
 									</select>
 								</div>
-								<div class="input-group col-sm-7">
+<!-- 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_map.png"></span>
 									<select class="form-control" id="region" name="region">
 										<option hidden selected>Region</option>
@@ -184,7 +184,7 @@
 										<option>Sabah</option>
 										<option>Sarawak</option>
 									</select>
-								</div>
+								</div> -->
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_tel.png"></span>
 									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactno">

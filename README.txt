@@ -9,7 +9,7 @@ Changes made :~
 			  - CHange index.php to register_login.html
 5) \register_login.html - integrate with index.php
                         - Login function - DONE
-						- Register function - 
+						- Register function - DONE
 						
 						- Logout function - 
                         - Get Ticket function -
