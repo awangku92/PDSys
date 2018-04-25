@@ -1,3 +1,28 @@
+<?php
+
+session_start();
+
+//call session user
+$user = $_SESSION["user"];
+
+if ($user->getUserType() !== "HQ"){
+	header("Location: /PdagangSystem/");
+}
+
+//call ticket
+require __DIR__ . '/controller/TicketController.php';
+require __DIR__ . '/model/TicketModelClass.php';
+
+session_start();
+
+//can i call getTicket fuction here? return in array mode
+$allTicket = new TicketController();
+$ticketArr = $allTicket->getAllTicket();
+
+var_dump( $ticketArr );
+echo "<br><br>Welcome to HQ_Homepage";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +59,7 @@
 				</div>
 				<div class="menu-right">
 					<ul type="none" class="menu">
-						<li><a href=""><i class="fa fa-user"></i> User Name</a></li>
+						<li><a href=""><i class="fa fa-user"></i>  <?php echo $user->getFullName() ?> </a></li>
 						<li><a href=""><i class="fa fa-folder badge1" data-badge="13"></i>	Message Notification</a></li>
 						<li><button type="submit" class="btn btn-default btn-logout"><i class="fa fa-sign-out fa-rotate-270"></i> Log Out</button></li>
 					</ul>
