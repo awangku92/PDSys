@@ -1,6 +1,6 @@
 <?php
  
-public class Status
+class Status
 {
 	var $StatusID, $StatusSetail;
 	

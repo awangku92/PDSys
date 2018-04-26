@@ -27,12 +27,6 @@
     //     	alertify.success('Normal message');
     // 	});
 	</script>
-
-<!--     <script>
-		$(function() {
-		    alertify.success('Normal message');
-		});
-    </script> -->
 </head>
 <body>
 

@@ -3,11 +3,10 @@
 require __DIR__ . '/../util/db.php';
 require __DIR__ . '/../util/config.php';
 
-class TicketController {
 
+class TicketController {
     public function getAllTicket (){
         $db = new db();
-        $ticket = new stdClass();
 
         $conn = $db->connect();
 
@@ -22,17 +21,39 @@ class TicketController {
         /* instead of bind_result */
         $result = $stmt->get_result(); 
 
-        /* now you can fetch the results into an array - NICE */
-        while( $row = $result->fetch_assoc() ) {
-          $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
-        }
+        $stmt->close();
+        $conn->close();
 
-        //$_SESSION["user"] = $user;
+        return $result;
+    }
+
+    public function getStatus($statusID){
+        $db = new db();
+        $status = new stdClass();
+
+        $conn = $db->connect();
+
+        $sql  = "SELECT StatusDetail FROM status WHERE StatusID = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $statusID);
+
+        /* execute query */
+        $stmt->execute();       
+
+        /* instead of bind_result */
+        $result = $stmt->get_result(); 
+
+        //$status = new status($result["StatusDetail"]);
+        //binding object to string
+
+        var_dump($status);
+        var_dump($result);
 
         $stmt->close();
         $conn->close();
 
-        return $ticket;
+        //return $status->getStatusDetail();
     }
 }
 
