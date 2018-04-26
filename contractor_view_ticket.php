@@ -1,3 +1,28 @@
+<?php
+
+require __DIR__ . '/model/UserModelClass.php';
+
+session_start();
+
+//call ticket
+require __DIR__ . '/controller/TicketController.php';
+require __DIR__ . '/model/TicketModelClass.php';
+
+//can i call getTicket fuction here? return in array mode
+$allTicket = new TicketController();
+$ticketArr = $allTicket->getAllTicket();
+
+var_dump( $ticketArr );
+
+//call session user
+$user = $_SESSION["user"];
+
+if ( !isset($_SESSION["user"]) && $user->getUserType() === "C"){
+	header("Location: /PDsys/");
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,7 +61,13 @@
 					<ul type="none" class="menu">
 						<li><a href=""><i class="fa fa-user"></i> User Name</a></li>
 						<li><a href=""><i class="fa fa-folder badge1" data-badge="13"></i>	Message Notification</a></li>
-						<li><button type="submit" class="btn btn-default btn-logout"><i class="fa fa-sign-out fa-rotate-270"></i> Log Out</button></li>
+						<li>
+							<form action="controller/Controller.php" method="get">
+								<button type="submit" name="operation" value="LogOut" class="btn btn-default btn-logout">
+									<i class="fa fa-sign-out fa-rotate-270"></i> Log Out
+								</button>
+							</form>
+						</li>
 					</ul>
 				</div>
 			</div>
