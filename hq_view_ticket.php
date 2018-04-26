@@ -16,8 +16,8 @@ if ($user->getUserType() !== "HQ"){
 }
 
 $allTicket = new TicketController();
-$ticketArr = $allTicket->getAllTicket();
 $ticket = new stdClass();
+$ticketArr = $allTicket->getAllTicket();
 ?>
 
 <!DOCTYPE html>
