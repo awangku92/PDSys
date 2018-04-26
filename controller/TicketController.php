@@ -41,19 +41,23 @@ class TicketController {
         /* execute query */
         $stmt->execute();       
 
-        /* instead of bind_result */
-        $result = $stmt->get_result(); 
+        /* Store the result (to get properties) */
+        $stmt->store_result();
 
-        //$status = new status($result["StatusDetail"]);
-        //binding object to string
+        /* Bind the result to variables */
+        $stmt->bind_result($StatusDetail);
 
-        var_dump($status);
-        var_dump($result);
+        while ($stmt->fetch()){
+            //var_dump($StatusDetail);
+        }
+
+        /* free results */
+        $stmt->free_result();
 
         $stmt->close();
         $conn->close();
 
-        //return $status->getStatusDetail();
+        return $StatusDetail;
     }
 }
 

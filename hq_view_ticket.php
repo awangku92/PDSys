@@ -84,7 +84,7 @@ $ticketArr = $allTicket->getAllTicket();
 						    		foreach ($ticketArr as $row) {
 									    //var_dump( $ticket );
 									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
-									    //var_dump($row);
+									    //var_dump($row["StatusID"]);
 
 									    //get Status from StatusID
 								    	$status = $allTicket->getStatus($row["StatusID"]);

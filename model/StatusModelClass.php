@@ -2,11 +2,11 @@
  
 class Status
 {
-	var $StatusID, $StatusSetail;
+	var $StatusID, $StatusDetail;
 	
-	public function __construct($StatusID, $StatusSetail) {
+	public function __construct($StatusID, $StatusDetail) {
 		$this->setStatusID($StatusID);
-		$this->setStatusSetail($StatusSetail);
+		$this->setStatusDetail($StatusDetail);
 	}
 	
 	public function setStatusID($newval)
@@ -19,14 +19,14 @@ class Status
 	      return $this->StatusID;
 	  }
 
-	public function setStatusSetail($newval)
+	public function setStatusDetail($newval)
 	  {
-	      $this->StatusSetail = $newval;
+	      $this->StatusDetail = $newval;
 	  }
 
-	public function getStatusSetail()
+	public function getStatusDetail()
 	  {
-	      return $this->StatusSetail;
+	      return $this->StatusDetail;
 	  }
 }
  
