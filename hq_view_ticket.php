@@ -1,6 +1,18 @@
 <?php
 
+require __DIR__ . '/model/UserModelClass.php';
+
 session_start();
+
+//call ticket
+require __DIR__ . '/controller/TicketController.php';
+require __DIR__ . '/model/TicketModelClass.php';
+
+//can i call getTicket fuction here? return in array mode
+$allTicket = new TicketController();
+$ticketArr = $allTicket->getAllTicket();
+
+var_dump( $ticketArr );
 
 //call session user
 $user = $_SESSION["user"];
@@ -9,18 +21,7 @@ if ($user->getUserType() !== "HQ"){
 	header("Location: /PdagangSystem/");
 }
 
-//call ticket
-require __DIR__ . '/controller/TicketController.php';
-require __DIR__ . '/model/TicketModelClass.php';
-
-session_start();
-
-//can i call getTicket fuction here? return in array mode
-$allTicket = new TicketController();
-$ticketArr = $allTicket->getAllTicket();
-
-var_dump( $ticketArr );
-echo "<br><br>Welcome to HQ_Homepage";
+//echo "<br><br>Welcome to HQ_Homepage";
 ?>
 
 <!DOCTYPE html>
