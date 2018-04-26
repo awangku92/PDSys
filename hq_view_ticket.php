@@ -12,15 +12,12 @@ session_start();
 $user = $_SESSION["user"];
 
 if ($user->getUserType() !== "HQ"){
-	header("Location: /PdagangSystem/");
+	header("Location: /PDsys/");
 }
 
-//can i call getTicket fuction here? return in array mode
 $allTicket = new TicketController();
-$ticketArr = $allTicket->getAllTicket();
-
 $ticket = new stdClass();
-
+$ticketArr = $allTicket->getAllTicket();
 ?>
 
 <!DOCTYPE html>

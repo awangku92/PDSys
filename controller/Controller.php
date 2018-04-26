@@ -72,6 +72,11 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 
 	$status = "success";
 	header("Location: /PDsys/status=$status");
+} else if ( strpos($operation, 'LogOut') !== false ){
+	require __DIR__ . '/UserController.php';
+	$req = new UserController();
+	$req->logout();
+	header("Location: /PDsys/");
 }
 
 

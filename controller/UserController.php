@@ -27,8 +27,7 @@ class UserController {
 
       //header("Location: /PdagangSystem/");
       $err = "error";
-      header("Location: /PdagangSystem/register_login.php?status=$err");
-
+      header("Location: /PDSys/register_login.php?status=$err");
       die();
     }
 
@@ -43,6 +42,14 @@ class UserController {
     $conn->close();
 
     return $user->getUserType();
+  }
+
+  public function logout (){
+    // remove all session variables
+    session_unset(); 
+
+    // destroy the session 
+    session_destroy(); 
   }
 
   public function register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password){
