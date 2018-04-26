@@ -1,18 +1,12 @@
 <?php
 
-require __DIR__ . '/model/UserModelClass.php';
-
-session_start();
-
 //call ticket
 require __DIR__ . '/controller/TicketController.php';
 require __DIR__ . '/model/TicketModelClass.php';
+require __DIR__ . '/model/UserModelClass.php';
+require __DIR__ . '/model/StatusModelClass.php';
 
-//can i call getTicket fuction here? return in array mode
-$allTicket = new TicketController();
-$ticketArr = $allTicket->getAllTicket();
-
-var_dump( $ticketArr );
+session_start();
 
 //call session user
 $user = $_SESSION["user"];
@@ -21,7 +15,12 @@ if ($user->getUserType() !== "HQ"){
 	header("Location: /PdagangSystem/");
 }
 
-//echo "<br><br>Welcome to HQ_Homepage";
+//can i call getTicket fuction here? return in array mode
+$allTicket = new TicketController();
+$ticketArr = $allTicket->getAllTicket();
+
+$ticket = new stdClass();
+
 ?>
 
 <!DOCTYPE html>
@@ -83,26 +82,49 @@ if ($user->getUserType() !== "HQ"){
 						      </tr>
 						    </thead>
 						    <tbody>
-						      <tr id="incomplete" data-toggle="modal" data-target="#modal-incomplete">
-						        <td>PTRNS0258</td>
-						        <td>25 Jan 2018, 22:04:15</td>
-						        <td>INCOMPLETE</td>
-						      </tr>
-						      <tr id="done" data-toggle="modal" data-target="#modal-done">
-						        <td>PTRNS0259</td>
-						        <td>04 Apr 2018, 15:46:35</td>
-						        <td>DONE</td>
-						      </tr>
-						      <tr id="postpone" data-toggle="modal" data-target="#modal-postpone">
-						        <td>PTRNS0260</td>
-						        <td>19 Apr 2018, 07:32:47</td>
-						        <td>POSTPONE</td>
-						      </tr>
-						      <tr id="inprogress" data-toggle="modal" data-target="#modal-inprogress">
-						        <td>PTRNS0260</td>
-						        <td>19 Apr 2018, 07:32:47</td>
-						        <td>IN PROGRESS</td>
-						      </tr>
+
+						    	<?php 
+						    		foreach ($ticketArr as $row) {
+									    //var_dump( $ticket );
+									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
+									    //var_dump($row);
+
+									    //get Status from StatusID
+								    	$status = $allTicket->getStatus($row["StatusID"]);
+								    	//var_dump($status)
+									//}
+						    	?>
+						    	<!-- GET StatusID.. need to change in id -->
+							    <tr id="done" data-toggle="modal" data-target="#modal-done">
+							        <td><?php echo $ticket->getTicketID() ?></td> <!-- ID -->
+							        <td><?php echo $ticket->getDateTime() ?></td> <!-- Date & Time -->
+							        <td><?php echo $status ?></td> <!-- Status -->
+							    </tr>
+
+						    	<?php 
+						    		 } 
+						    	?>
+						    	<!-- DONT DELETE!!! use as guide. -->
+<!-- 						     	<tr id="incomplete" data-toggle="modal" data-target="#modal-incomplete">
+							        <td>PTRNS0258</td>
+							        <td>25 Jan 2018, 22:04:15</td>
+							        <td>INCOMPLETE</td>
+							    </tr>
+							    <tr id="done" data-toggle="modal" data-target="#modal-done">
+							        <td>PTRNS0259</td>
+							        <td>04 Apr 2018, 15:46:35</td>
+							        <td>DONE</td>
+							    </tr>
+							    <tr id="postpone" data-toggle="modal" data-target="#modal-postpone">
+							        <td>PTRNS0260</td>
+							        <td>19 Apr 2018, 07:32:47</td>
+							        <td>POSTPONE</td>
+							    </tr>
+							    <tr id="inprogress" data-toggle="modal" data-target="#modal-inprogress">
+							        <td>PTRNS0260</td>
+							        <td>19 Apr 2018, 07:32:47</td>
+							        <td>IN PROGRESS</td>
+							    </tr> -->
 						    </tbody>
 						</table>
 					</div>
