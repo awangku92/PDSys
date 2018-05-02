@@ -21,7 +21,12 @@
     <script type="text/javascript">
 	    var urlParams = new URLSearchParams(window.location.search);
 	    $(function() {
-	  		(urlParams.get('status') === "error") ? alertify.error('Invalid account') : alertify.success('Register success'); //alert('Invalid account'); 
+	  		//(urlParams.get('status') === "error") ? alertify.error('Invalid account') : alertify.success('Register success'); //alert('Invalid account'); 
+	  		if (urlParams.get('status') === "error"){
+	  			alertify.error('Invalid account');
+	  		} else if (urlParams.get('status') === "success"){
+  				alertify.success('Register success');
+	  		}
 	  	});
 	  	// $( document ).ready(function() {
     //     	alertify.success('Normal message');

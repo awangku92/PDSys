@@ -78,6 +78,33 @@ class UserController {
     $stmt->close();
     $conn->close();
   }
+
+  public function getContractor ($UID){
+      $db = new db();
+      $contractor = new stdClass();
+
+      $conn = $db->connect();
+
+      $sql  = "SELECT CompanyName, FullName, Contact FROM user WHERE UID = ?";
+
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param("s", $UID);
+
+      /* execute query */
+      $stmt->execute();       
+
+      $result = $stmt->get_result();
+
+      //var_dump($result);
+
+      // /* free results */
+      $stmt->free_result();
+
+      $stmt->close();
+      $conn->close();
+
+      return $result;
+  }
 }
 
 ?>
