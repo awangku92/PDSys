@@ -1,18 +1,13 @@
 <?php
 
-require __DIR__ . '/model/UserModelClass.php';
-
-session_start();
-
 //call ticket
 require __DIR__ . '/controller/TicketController.php';
+require __DIR__ . '/controller/UserController.php';
 require __DIR__ . '/model/TicketModelClass.php';
+require __DIR__ . '/model/UserModelClass.php';
+require __DIR__ . '/model/StatusModelClass.php';
 
-//can i call getTicket fuction here? return in array mode
-$allTicket = new TicketController();
-$ticketArr = $allTicket->getAllTicket();
-
-var_dump( $ticketArr );
+session_start();
 
 //call session user
 $user = $_SESSION["user"];
@@ -21,6 +16,10 @@ if ( !isset($_SESSION["user"]) && $user->getUserType() === "C"){
 	header("Location: /PDsys/");
 }
 
+$allTicket = new TicketController();
+$allUser = new UserController();
+$ticket = new stdClass();
+$ticketArr = $allTicket->getAllTicket();
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +58,7 @@ if ( !isset($_SESSION["user"]) && $user->getUserType() === "C"){
 				</div>
 				<div class="menu-right">
 					<ul type="none" class="menu">
-						<li><a href=""><i class="fa fa-user"></i> User Name</a></li>
+						<li><a href=""><i class="fa fa-user"></i><?php echo $user->getFullName() ?></a></li>
 						<li><a href=""><i class="fa fa-folder badge1" data-badge="13"></i>	Message Notification</a></li>
 						<li>
 							<form action="controller/Controller.php" method="get">

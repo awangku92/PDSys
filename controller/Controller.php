@@ -27,15 +27,15 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 
 	if ($userType === "HQ"){
 		// header("Location: /PdagangSystem/hq_index.php");
-		header("Location: /PDsys/hq_view_ticket.php");
+		header("Location: /PDSys/hq_view_ticket.php");
 		die();
 	} else if ($userType === "D") {
 		//header("Location: /PdagangSystem/dealer_index.php");
-		header("Location: /PDsys/dealer_view_ticket.php");
+		header("Location: /PDSys/dealer_view_ticket.php");
 		die();
 	} else if ($userType === "C") {
 		//header("Location: /PdagangSystem/c_index.php");
-		header("Location: /PDsys/contractor_view_ticket.php");
+		header("Location: /PDSys/contractor_view_ticket.php");
 		die();
 	} 
 } else if ( strpos($operation, 'Register') !== false ){
@@ -71,12 +71,12 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password);
 
 	$status = "success";
-	header("Location: /PDsys/status=$status");
+	header("Location: /PDSys/status=$status");
 } else if ( strpos($operation, 'LogOut') !== false ){
 	require __DIR__ . '/UserController.php';
 	$req = new UserController();
 	$req->logout();
-	header("Location: /PDsys/");
+	header("Location: /PDSys/");
 }
 
 
