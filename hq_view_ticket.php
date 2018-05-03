@@ -36,7 +36,9 @@ $ticketArr = $allTicket->getAllTicket();
     <script type="text/javascript" src="./js/date_time.js"></script>
 </head>
 <body>
-
+	
+	?>
+	
 	<section class="first">
 		<div class="container-fluid">
 			<div class="navbar-first">

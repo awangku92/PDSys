@@ -123,6 +123,34 @@ class TicketController {
 
         return $Category;
     }
+
+    public function generateTicketId ($userID){
+
+        $db = new db();
+
+        $conn = $db->connect();
+
+        $sql = "SELECT * FROM ticket WHERE UID = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $userID);
+
+        $stmt->execute();
+
+        $totalTicket = 1;
+
+        while ($stmt->fetch()){
+            $totalTicket++;
+        }
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $date = date("Ymd");
+        $time = date("hi");
+
+        $stmt->close();
+        $conn->close();
+        
+        return $date."_".$time."_TIC".$totalTicket;
+    }
 }
 
 ?>
