@@ -175,7 +175,7 @@ $ticketArr = $allTicket->getAllTicket();
 																	</div>
 																</div>
 																<!-- REDO!!! ---------------------------------------------------------- -->
-																<!-- CHANGE TO BUTTON -->
+																<!-- CHANGE TO BUTTON; AUTOMATICALLY SAVE -->
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">STATUS</label>
 																	<!-- (status == close) ? //no option : //show option ; -->
@@ -202,9 +202,7 @@ $ticketArr = $allTicket->getAllTicket();
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">DETAILS</label>
 																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Describe the issue here" readonly>
-																			<?php echo $ticket->getDetail() ?>
-																		</textarea>
+																		<textarea class="form-control" placeholder="Describe the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
 																	</div>
 																</div>
 																<hr>
@@ -418,18 +416,21 @@ $ticketArr = $allTicket->getAllTicket();
 																</div>
 																<hr>
 																<p>CONTRACTOR'S DETAILS</p><br>
+																<!-- CHOOSE COMPANY NAME BY REGION; DO getContractorCompanyName function as dropdown -->
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">COMPANY NAME</label>
 																	<div class="col-sm-6">
 																		<input class="form-control" type="text" name="" value="<?php echo $CompanyName ?>">
 																	</div>
 																</div>
+																<!-- auto from company name -->
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">FULL NAME</label>
 																	<div class="col-sm-6">
 																		<input class="form-control" type="text" name="" value="<?php echo $FullName ?>" readonly>
 																	</div>
 																</div>
+																<!-- auto from company name -->
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">CONTACT NO</label>
 																	<div class="col-sm-6">
