@@ -151,6 +151,10 @@ class TicketController {
         
         return $date."_".$time."_TIC".$totalTicket;
     }
+
+    public function openTicket ($ticketID, $userID, $dateTime, $Category , $Details){
+        return "Okey";
+    }
 }
 
 ?>
