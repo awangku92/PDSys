@@ -60,9 +60,16 @@ $ticketArr = $allTicket->getAllTicket();
 				</div>
 				<div class="menu-right">
 					<ul type="none" class="menu">
-						<li><a href=""><i class="fa fa-user"></i><?php echo $user->getFullName() ?></a></li>
+						<li><a href=""><i class="fa fa-user"></i> <?php echo $user->getFullName() ?></a></li>
 						<li><a href=""><i class="fa fa-folder badge1" data-badge="13"></i>	Message Notification</a></li>
-						<li><button type="submit" class="btn btn-default btn-logout"><i class="fa fa-sign-out fa-rotate-270"></i> Log Out</button></li>
+						<li>
+							<!-- <button type="submit" class="btn btn-default btn-logout"><i class="fa fa-sign-out fa-rotate-270"></i> Log Out</button> -->
+							<form action="controller/Controller.php" method="get">
+								<button type="submit" name="operation" value="LogOut" class="btn btn-default btn-logout">
+									<i class="fa fa-sign-out fa-rotate-270"></i> Log Out
+								</button>
+							</form>
+						</li>
 					</ul>
 				</div>
 			</div>

@@ -27,7 +27,7 @@ class GeneralController {
             $region = "Southern";
             break;
         case "Sabah":
-        case "Wilayah Persekutuan Labuan":
+        case "Wilayah Persekutuan Labuan": //conformation for labuan region
             $region = "Sabah";
             break;
         case "Sarawak":
