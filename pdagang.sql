@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Apr 25, 2018 at 04:36 PM
+-- Generation Time: May 12, 2018 at 07:44 PM
 -- Server version: 5.7.11
 -- PHP Version: 7.0.3
 
@@ -76,6 +76,7 @@ INSERT INTO `category` (`CategoryID`, `CategoryType`, `Priority`) VALUES
 --
 
 CREATE TABLE `logtickets` (
+  `SearchID` int(11) NOT NULL,
   `TIcketID` varchar(50) NOT NULL,
   `UID` int(11) NOT NULL,
   `DateTime` datetime NOT NULL,
@@ -89,16 +90,16 @@ CREATE TABLE `logtickets` (
 -- Dumping data for table `logtickets`
 --
 
-INSERT INTO `logtickets` (`TIcketID`, `UID`, `DateTime`, `PostponeDateTime`, `StatusID`, `Reason`, `UIDContractor`) VALUES
-('20180301_1330_TIC001', 2, '2018-03-01 13:30:00', NULL, 'I', '', 6),
-('20180301_1330_TIC001', 2, '2018-03-01 13:30:00', NULL, 'D', '', 6),
-('20180301_1330_TIC002', 2, '2018-03-03 09:30:00', NULL, 'I', '', 4),
-('20180301_1530_TIC003', 3, '2018-03-01 15:30:00', NULL, 'I', '', 5),
-('20180303_1330_TIC004', 3, '2018-03-03 13:30:00', NULL, 'I', '', 5),
-('20180303_1330_TIC004', 3, '2018-03-03 13:30:00', '2018-03-10 13:30:00', 'P', '', 5),
-('20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'I', '', 4),
-('20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'D', '', 4),
-('20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'C', '', 4);
+INSERT INTO `logtickets` (`SearchID`, `TIcketID`, `UID`, `DateTime`, `PostponeDateTime`, `StatusID`, `Reason`, `UIDContractor`) VALUES
+(1, '20180301_1330_TIC001', 2, '2018-03-01 13:30:00', NULL, 'I', '', 6),
+(2, '20180301_1330_TIC001', 2, '2018-03-01 13:30:00', NULL, 'D', '', 6),
+(3, '20180301_1330_TIC002', 2, '2018-03-03 09:30:00', NULL, 'I', '', 4),
+(4, '20180301_1530_TIC003', 3, '2018-03-01 15:30:00', NULL, 'I', '', 5),
+(5, '20180303_1330_TIC004', 3, '2018-03-03 13:30:00', NULL, 'I', '', 5),
+(6, '20180303_1330_TIC004', 3, '2018-03-03 13:30:00', '2018-03-10 13:30:00', 'P', '', 5),
+(7, '20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'I', '', 4),
+(8, '20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'D', '', 4),
+(9, '20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'C', '', 4);
 
 -- --------------------------------------------------------
 
@@ -119,7 +120,7 @@ INSERT INTO `status` (`StatusID`, `StatusDetail`) VALUES
 ('C', 'Close'),
 ('D', 'Done'),
 ('I', 'Incomplete'),
-('IP', 'Inprogress\r\n'),
+('IP', 'Inprogress'),
 ('P', 'Postpone');
 
 -- --------------------------------------------------------
@@ -148,8 +149,8 @@ INSERT INTO `ticket` (`TicketID`, `UID`, `SearchID`, `DateTime`, `BranchID`, `Ca
 ('20180201_1330_TIC005', 2, 5, '2018-02-01 13:30:00', 'MD', 'D3', 'C', 'Auto nozel problem', 4),
 ('20180301_1330_TIC001', 2, 1, '2018-03-01 13:30:00', 'KD', 'D1', 'D', 'Pump has been damaged, need immediate repair. ', 6),
 ('20180301_1530_TIC003', 3, 3, '2018-03-01 15:30:00', 'SBH', 'D1', 'I', 'Pump damaged, need to replace', 5),
-('20180303_0930_TIC002', 2, 2, '2018-03-03 09:30:00', 'TG', 'D2', 'I', 'Petrol did not come out. Need to check', 4),
-('20180303_1330_TIC004', 3, 4, '2018-03-03 13:30:00', 'SRK', 'D4', 'P', 'Price is not tally, might becaused of another reason, need to recheck', 5);
+('20180303_0930_TIC002', 2, 2, '2018-03-03 09:30:00', 'TG', 'D2', 'IP', 'Petrol did not come out. Need to check', 4),
+('20180303_1330_TIC004', 3, 4, '2018-03-03 13:30:00', 'SRK', 'D4', 'P', 'Price is not tally, might because of another reason, need to recheck', 5);
 
 -- --------------------------------------------------------
 
@@ -222,6 +223,12 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`CategoryID`);
 
 --
+-- Indexes for table `logtickets`
+--
+ALTER TABLE `logtickets`
+  ADD PRIMARY KEY (`SearchID`);
+
+--
 -- Indexes for table `status`
 --
 ALTER TABLE `status`
@@ -231,7 +238,8 @@ ALTER TABLE `status`
 -- Indexes for table `ticket`
 --
 ALTER TABLE `ticket`
-  ADD PRIMARY KEY (`TicketID`);
+  ADD PRIMARY KEY (`TicketID`),
+  ADD UNIQUE KEY `SearchID` (`SearchID`);
 
 --
 -- Indexes for table `user`
@@ -249,6 +257,16 @@ ALTER TABLE `usertype`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `logtickets`
+--
+ALTER TABLE `logtickets`
+  MODIFY `SearchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `ticket`
+--
+ALTER TABLE `ticket`
+  MODIFY `SearchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `user`
 --
