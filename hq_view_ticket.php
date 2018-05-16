@@ -37,8 +37,6 @@ $ticketArr = $allTicket->getAllTicket();
 </head>
 <body>
 	
-	?>
-	
 	<section class="first">
 		<div class="container-fluid">
 			<div class="navbar-first">
@@ -106,7 +104,7 @@ $ticketArr = $allTicket->getAllTicket();
 								    	//var_dump($state);
 
 							    		//get category info
-								    	$category = $allTicket->getCategory( $row["CategoryID"]);
+								    	$category = $allTicket->getCategoryType( $row["CategoryID"]);
 								    	//var_dump($category);
 
 								    	//get Contractor info in user table

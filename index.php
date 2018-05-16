@@ -52,12 +52,12 @@
 						<form class="form-inline"  method="post" action="controller/Controller.php" autocomplete="off">
 							<div class="form-group">
 								<div class="input-case">
-									<input type="email" class="form-control" id="email" placeholder="Email" name="email">
+									<input type="email" class="form-control" id="email" placeholder="Email" name="emailLogin">
 								</div>
 							</div>
 							<div class="form-group">
 							    <div class="input-case">   
-							    	<input type="password" class="form-control" id="password" placeholder="Password" name="password">
+							    	<input type="password" class="form-control" id="password" placeholder="Password" name="passwordLogin">
 							    </div>
 						    </div>
 						    <div class="form-group"> 
@@ -104,19 +104,19 @@
 							<div id="hq">
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_user.png"></span>
-									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullnameH">
+									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullnameHQ">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_mail.png"></span>
-									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="emailH">
+									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="emailHQ">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_lock.png"></span>
-									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="passwordH">
+									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="passwordHQ">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_tel.png"></span>
-									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactnoH">
+									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactnoHQ">
 								</div>
 							</div>
 

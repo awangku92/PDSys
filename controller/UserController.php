@@ -27,7 +27,7 @@ class UserController {
 
       //header("Location: /PdagangSystem/");
       $err = "error";
-      header("Location: /PDSys/register_login.php?status=$err");
+      header("Location: /PDSys/index.php?status=$err");
       die();
     }
 

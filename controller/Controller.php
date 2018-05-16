@@ -2,8 +2,8 @@
 
 session_start();
 
-require __DIR__ . '/../util/db.php';
-require __DIR__ . '/../util/config.php';
+require_once __DIR__ . '/../util/db.php';
+require_once __DIR__ . '/../util/config.php';
 
 $operation = "";
 
@@ -19,8 +19,8 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	require __DIR__ . '/UserController.php';
 	require __DIR__ . '/../model/UserModelClass.php';
 
-	$email = $_POST['email'];
-	$password = $_POST['password'];
+	$email = $_POST['emailLogin'];
+	$password = $_POST['passwordLogin'];
 
 	$crendential = new UserController();
 	$userType = $crendential->login($email,$password);
@@ -44,10 +44,10 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	require __DIR__ . '/../model/UserModelClass.php';
 
 	if ($_POST['usertype'] === "HQ") {
-		$fullname    = $_POST['fullnameH'];
-		$contactno   = $_POST['contactnoH'];
-		$email       = $_POST['emailH'];
-		$password    = $_POST['passwordH'];
+		$fullname    = $_POST['fullnameHQ'];
+		$contactno   = $_POST['contactnoHQ'];
+		$email       = $_POST['emailHQ'];
+		$password    = $_POST['passwordHQ'];
 	} else {
 		$fullname    = $_POST['fullname'];
 		$contactno   = $_POST['contactno'];
@@ -78,6 +78,63 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$req->logout();
 	header("Location: /PDSys/");
 }
+else if ( strpos($operation, 'OpenTicket') !== false ){
+	//get $_post
+	$TicketID   	= $_POST['ticketID'];
+	$UserID 		= $_POST['userID'];
+	$DateTime  		= $_POST['dateTime'];
+	$CategoryID   	= $_POST['category'];
+	$Detail  		= $_POST['detail'];
+	$BranchID 		= $_POST['branchID'];
+	$StatusID 		= $_POST['statusID'];
+	$UIDContractor 	= "";
 
+	//var_dump($BranchID);
+
+	//check category & details make sure not empty
+	if (($Detail === "") || ($CategoryID === "-Please select-")){
+		//field is required, return to page
+		$status = "error";
+		header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+	}
+
+	//open ticket function
+	require __DIR__ . '/TicketController.php';
+	$TicketController = new TicketController();
+	//$CategoryID = $TicketController->getCategoryID($CategoryType);
+
+	//open new tiket
+	$boolOpenTicket = $TicketController->openTicket($TicketID, $UserID, $DateTime, $BranchID, $CategoryID, $StatusID, $Detail, $UIDContractor);
+
+	if ($boolOpenTicket){
+		//if success create ticket then log the ticket
+	    $postponeDateTime   = NULL;
+	    $reason             = "";
+		$boolLogTickets = $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+
+		//success create and log, then return to view
+		if ($boolLogTickets){
+			header("Location: /PDSys/dealer_view_ticket.php");
+		} else {
+			//else log failed, delete ticket n return failed
+			$status = "log_ticket_failed";
+			header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+		}
+		
+	} else {
+		$status = "open_ticket_failed";
+		header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+	}
+
+
+	// if ($boolOpenTicket && $boolLogTickets){
+	// 	// if true return to view_ticket
+	// 	header("Location: /PDSys/dealer_view_ticket.php");
+	// } else {
+	// 	//else return to create ticket?
+	// 	$status = "failed";
+	// 	header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+	// }
+}
 
 ?>
