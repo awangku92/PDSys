@@ -1,6 +1,6 @@
 <?php
  
-public class Category
+class Category
 {
 	var $CategoryID, $CategoryType, $Priority;
 	

@@ -1,7 +1,7 @@
 <?php
 
-require __DIR__ . '/../util/db.php';
-require __DIR__ . '/../util/config.php';
+require_once __DIR__ . '/../util/db.php';
+require_once __DIR__ . '/../util/config.php';
 
 
 class TicketController {
@@ -10,7 +10,7 @@ class TicketController {
 
         $conn = $db->connect();
 
-        $sql  = "SELECT * FROM ticket";
+        $sql  = "SELECT * FROM ticket ORDER BY StatusID DESC";
 
         $stmt = $conn->prepare($sql);
         //$stmt->bind_param("ss", $email, $password);
@@ -92,7 +92,7 @@ class TicketController {
         return $State;
     }
 
-    public function getCategory ($categoryID){
+    public function getCategoryType ($categoryID){
         $db = new db();
 
         $conn = $db->connect();
@@ -109,7 +109,7 @@ class TicketController {
         $stmt->store_result();
 
         /* Bind the result to variables */
-        $stmt->bind_result($Category);
+        $stmt->bind_result($CategoryType);
 
         while ($stmt->fetch()){
             //var_dump($StatusDetail);
@@ -121,10 +121,32 @@ class TicketController {
         $stmt->close();
         $conn->close();
 
-        return $Category;
+        return $CategoryType;
     }
 
-    public function generateTicketId ($userID){
+    public function getAllCategory(){
+        $db = new db();
+
+        $conn = $db->connect();
+
+        $sql  = "SELECT * FROM category";
+
+        $stmt = $conn->prepare($sql);
+        //$stmt->bind_param("ss", $email, $password);
+
+        /* execute query */
+        $stmt->execute();       
+
+        /* instead of bind_result */
+        $result = $stmt->get_result(); 
+
+        $stmt->close();
+        $conn->close();
+
+        return $result;
+    }
+
+    public function generateTicketId($userID){
 
         $db = new db();
 
@@ -152,9 +174,122 @@ class TicketController {
         return $date."_".$time."_TIC".$totalTicket;
     }
 
-    public function openTicket ($ticketID, $userID, $dateTime, $Category , $Details){
-        return "Okey";
+    public function getBranchID ($userID){
+        $db = new db();
+
+        $conn = $db->connect();
+
+        $sql  = "SELECT BranchesID FROM branches WHERE UID = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $userID);
+
+        /* execute query */
+        $stmt->execute();       
+
+        /* Store the result (to get properties) */
+        $stmt->store_result();
+
+        /* Bind the result to variables */
+        $stmt->bind_result($BranchID);
+
+        while ($stmt->fetch()){
+            //var_dump($StatusDetail);
+        }
+
+        /* free results */
+        $stmt->free_result();
+
+        $stmt->close();
+        $conn->close();
+
+        return $BranchID;
     }
+
+    public function openTicket($ticketID, $userID, $dateTime, $branchID, $categoryID, $statusID, $detail, $uIDContractor){
+        $sqlTicket = "";
+        $db = new db();
+
+        $conn = $db->connect();
+
+        //insert into ticket
+        $sqlTicket = "INSERT INTO ticket (TicketID, UID, DateTime, BranchID, CategoryID, StatusID, Detail, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmtTicket = $conn->prepare($sqlTicket);
+
+        $test = $stmtTicket->bind_param("sisssssi", $ticketID, $userID, $dateTime, $branchID, $categoryID, $statusID, $detail, $uIDContractor);
+
+        $resultTicket = $stmtTicket->execute();
+
+        $stmtTicket->close();
+        $conn->close();
+
+        if ($resultTicket){
+            return True;
+        }else{
+            return False;
+        }
+    }
+
+    public function logTickets($ticketID, $userID, $dateTime, $statusID, $uIDContractor, $postponeDateTime, $reason){
+        $sqlLogTickets = "";
+        $db = new db();
+
+        $conn = $db->connect();
+
+        //insert into logtickets
+        $sqlLogTickets = "INSERT INTO logtickets (TicketID, UID, DateTime, PostponeDateTime, StatusID, Reason, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        $stmtLogTickets = $conn->prepare($sqlLogTickets);
+
+        $stmtLogTickets->bind_param("sissssi", $ticketID, $userID, $dateTime, $postponeDateTime, $statusID, $reason, $uIDContractor);
+
+        $resultLogTickets = $stmtLogTickets->execute();
+
+        $stmtLogTickets->close();
+        $conn->close();
+
+        if ($resultLogTickets){
+            return True;
+        }else{
+            return False;
+        }
+    }
+
+
+
+
+    // public function getCategoryID ($categoryType){
+    //     $db = new db();
+
+    //     $conn = $db->connect();
+
+    //     $sql  = "SELECT CategoryID FROM category WHERE CategoryType = ?";
+
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->bind_param("s", $categoryType);
+
+    //     /* execute query */
+    //     $stmt->execute();       
+
+    //     /* Store the result (to get properties) */
+    //     $stmt->store_result();
+
+    //     /* Bind the result to variables */
+    //     $stmt->bind_result($CategoryID);
+
+    //     while ($stmt->fetch()){
+    //         //var_dump($StatusDetail);
+    //     }
+
+    //     /* free results */
+    //     $stmt->free_result();
+
+    //     $stmt->close();
+    //     $conn->close();
+
+    //     return $CategoryID;
+    // }
 }
 
 ?>

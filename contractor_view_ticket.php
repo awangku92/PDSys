@@ -105,7 +105,7 @@ $ticketArr = $allTicket->getAllTicket();
 								    	//var_dump($state);
 
 							    		//get category info
-								    	$category = $allTicket->getCategory( $row["CategoryID"]);
+								    	$category = $allTicket->getCategoryType( $row["CategoryID"]);
 								    	//var_dump($category);
 
 								    	//get Contractor info in user table
@@ -142,7 +142,8 @@ $ticketArr = $allTicket->getAllTicket();
 									            break;
 									    }
 									//}
-									    //echo $modal;
+									    //get all ticket assign for that particular contractor
+									    if($user->getUID() === $row["UIDContractor"]){
 						    	?>
 						    	<!-- GET StatusID.. need to change in id -->
 							    <tr id="<?php echo $id ?>" data-toggle="modal" data-target="<?php echo $modal.$ticket->getTicketID() ?>">
@@ -153,326 +154,327 @@ $ticketArr = $allTicket->getAllTicket();
 							    </tr>
 
 							    <?php 
-							    	//case statement for modal
-								    switch ($modal) {
-								        case "#modal-done":
-											//put html modal here ?>
-											<!-- Modal Done-->
-											<div class="modal fade" id="modal-done<?php echo $ticket->getTicketID(); ?>" role="dialog">
-												<div class="modal-dialog">
-													<!-- Modal Done-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">TICKET'S DETAILS</h4>
-														</div>
-														<div class="modal-body">
-															<form>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">ID TICKET</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+							    		//case statement for modal
+									    switch ($modal) {
+									        case "#modal-done":
+												//put html modal here ?>
+												<!-- Modal Done-->
+												<div class="modal fade" id="modal-done<?php echo $ticket->getTicketID(); ?>" role="dialog">
+													<div class="modal-dialog">
+														<!-- Modal Done-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h4 class="modal-title">TICKET'S DETAILS</h4>
+															</div>
+															<div class="modal-body">
+																<form>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">ID TICKET</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">USER ID</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">USER ID</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATUS</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATUS</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATE</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATE</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">REGION</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">REGION</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">CATEGORY</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">CATEGORY</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DETAILS</label>
-																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DETAILS</label>
+																		<div class="col-sm-6">
+																			<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<!-- get from logtickets["PostponeDateTime"] -->
-																		<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<!-- get from logtickets["PostponeDateTime"] -->
+																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																		</div>
 																	</div>
-																</div>
-															</form>
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-														</div>
-													</div>
-												</div>
-											</div>
-
-											<?php 
-								            break;
-								        case "#modal-incomplete":
-								            //put html modal here ?>
-								            <!-- Modal incomplete-->
-											<div class="modal fade" id="modal-incomplete<?php echo $ticket->getTicketID(); ?>" role="dialog">
-												<div class="modal-dialog">
-													<!-- Modal content-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">TICKET'S DETAILS</h4>
-														</div>
-														<div class="modal-body">
-															<form>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">ID TICKET</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">USER ID</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATUS</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATE</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">REGION</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">CATEGORY</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DETAILS</label>
-																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
-																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<!-- KIV -->
-																		<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
-																	</div>
-																</div>
-															</form>
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
 
-											<?php
-								            break;
-								        case "#modal-inprogress":
-								           	//put html modal here ?>
-								           	<!-- Modal inprogress-->
-											<div class="modal fade" id="modal-inprogress<?php echo $ticket->getTicketID(); ?>" role="dialog">
-												<div class="modal-dialog">
-													<!-- Modal content-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">TICKET'S DETAILS</h4>
-														</div>
-														<div class="modal-body">
-															<form>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">ID TICKET</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+												<?php 
+									            break;
+									        case "#modal-incomplete":
+									            //put html modal here ?>
+									            <!-- Modal incomplete-->
+												<div class="modal fade" id="modal-incomplete<?php echo $ticket->getTicketID(); ?>" role="dialog">
+													<div class="modal-dialog">
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h4 class="modal-title">TICKET'S DETAILS</h4>
+															</div>
+															<div class="modal-body">
+																<form>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">ID TICKET</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">USER ID</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">USER ID</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATUS</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATUS</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATE</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATE</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">REGION</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">REGION</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">CATEGORY</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">CATEGORY</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DETAILS</label>
-																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DETAILS</label>
+																		<div class="col-sm-6">
+																			<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<!-- KIV, dont know format -->
-																		<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<!-- KIV -->
+																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																		</div>
 																	</div>
-																</div>
-															</form>
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
 
-											<?php
-								            break;
-								        case "#modal-postpone":
-								            //put html modal here ?>
-								            <!-- Modal postpone-->
-											<div class="modal fade" id="modal-postpone<?php echo $ticket->getTicketID(); ?>" role="dialog">
-												<div class="modal-dialog">
-													<!-- Modal content-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">TICKET'S DETAILS</h4>
-														</div>
-														<div class="modal-body">
-															<form>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">ID TICKET</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+												<?php
+									            break;
+									        case "#modal-inprogress":
+									           	//put html modal here ?>
+									           	<!-- Modal inprogress-->
+												<div class="modal fade" id="modal-inprogress<?php echo $ticket->getTicketID(); ?>" role="dialog">
+													<div class="modal-dialog">
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h4 class="modal-title">TICKET'S DETAILS</h4>
+															</div>
+															<div class="modal-body">
+																<form>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">ID TICKET</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">USER ID</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">USER ID</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATUS</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATUS</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">STATE</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATE</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">REGION</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">REGION</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">CATEGORY</label>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">CATEGORY</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">DETAILS</label>
-																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DETAILS</label>
+																		<div class="col-sm-6">
+																			<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																		</div>
 																	</div>
-																</div>
-																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<!-- KIV, dont know format -->
-																		<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<!-- KIV, dont know format -->
+																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																		</div>
 																	</div>
-																</div>
-															</form>
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															</div>
 														</div>
 													</div>
 												</div>
-											</div>
 
-								            <?php
-								            break;
-								    }
-								}
+												<?php
+									            break;
+									        case "#modal-postpone":
+									            //put html modal here ?>
+									            <!-- Modal postpone-->
+												<div class="modal fade" id="modal-postpone<?php echo $ticket->getTicketID(); ?>" role="dialog">
+													<div class="modal-dialog">
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h4 class="modal-title">TICKET'S DETAILS</h4>
+															</div>
+															<div class="modal-body">
+																<form>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">ID TICKET</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID() ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">USER ID</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID() ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime() ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATUS</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $status ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">STATE</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $state ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">REGION</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $region ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">CATEGORY</label>
+																		<div class="col-sm-6">
+																			<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">DETAILS</label>
+																		<div class="col-sm-6">
+																			<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
+																		</div>
+																	</div>
+																	<div class="form-group row">
+																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<!-- KIV, dont know format -->
+																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																		</div>
+																	</div>
+																</form>
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															</div>
+														</div>
+													</div>
+												</div>
+
+									            <?php
+									            break;
+									    }
+							    		}
+									}
 							    ?>
 
 							<!-- <tr id="incomplete" data-toggle="modal" data-target="#modal-incomplete">

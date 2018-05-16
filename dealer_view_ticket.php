@@ -95,47 +95,49 @@ $ticketArr = $allTicket->getAllTicket();
 									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
 									    //var_dump($row["Detail"]);
 
-									    //get Status from StatusID
-								    	$status = $allTicket->getStatus($row["StatusID"]);
-								    	//var_dump($status);
+									    //dealer can only view their ticket only
+									    if ($row["UID"] === $user->getUID()){
+										    //get Status from StatusID
+									    	$status = $allTicket->getStatus($row["StatusID"]);
+									    	//var_dump($status);
 
-								    	//get state info
-								    	$state = $allTicket->getState( $row["BranchID"]);
-								    	//var_dump($state);
+									    	//get state info
+									    	$state = $allTicket->getState( $row["BranchID"]);
+									    	//var_dump($state);
 
-							    		//get category info
-								    	$category = $allTicket->getCategory( $row["CategoryID"]);
-								    	//var_dump($category);
+								    		//get category info
+									    	$category = $allTicket->getCategoryType( $row["CategoryID"]);
+									    	//var_dump($category);
 
-								    	//get Contractor info in user table
-								    	$contractorInfo = $allUser->getContractor( $row["UIDContractor"]);
+									    	//get Contractor info in user table
+									    	$contractorInfo = $allUser->getContractor( $row["UIDContractor"]);
 
-								    	/* associative array */
-								    	$contractor = $contractorInfo->fetch_array(MYSQLI_ASSOC);
-								    	$CompanyName = $contractor["CompanyName"];
-								    	$FullName = $contractor["FullName"];
-										$Contact = $contractor["Contact"];
+									    	/* associative array */
+									    	$contractor = $contractorInfo->fetch_array(MYSQLI_ASSOC);
+									    	$CompanyName = $contractor["CompanyName"];
+									    	$FullName = $contractor["FullName"];
+											$Contact = $contractor["Contact"];
 
-								    	//case for status
-									    switch ($status) {
-									        case "Done":
-									        case "Close":
-									        	$id = "done";
-									        	$modal = "#modal-done";
-									            break;
-									        case "Incomplete":
-									            $id = "incomplete";
-									        	$modal = "#modal-incomplete";
-									            break;
-									        case "Inprogress":
-									           	$id = "inprogress";
-									        	$modal = "#modal-inprogress";
-									            break;
-									        case "Postpone":
-									            $id = "postpone";
-									        	$modal = "#modal-postpone";
-									            break;
-									    }
+									    	//case for status
+										    switch ($status) {
+										        case "Done":
+										        case "Close":
+										        	$id = "done";
+										        	$modal = "#modal-done";
+										            break;
+										        case "Incomplete":
+										            $id = "incomplete";
+										        	$modal = "#modal-incomplete";
+										            break;
+										        case "Inprogress":
+										           	$id = "inprogress";
+										        	$modal = "#modal-inprogress";
+										            break;
+										        case "Postpone":
+										            $id = "postpone";
+										        	$modal = "#modal-postpone";
+										            break;
+										    }
 									//}
 									    //echo $modal;
 						    	?>
@@ -406,6 +408,7 @@ $ticketArr = $allTicket->getAllTicket();
 								            <?php
 								            break;
 								    }
+									}
 								}
 							    ?>
 
