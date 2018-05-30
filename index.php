@@ -8,15 +8,10 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- 	<link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/font-awesome.min.css" rel="stylesheet">
-    <link href="./css/alertify.min.css" rel="stylesheet"> -->
     <link href="./css/main.css" rel="stylesheet">
 
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<!-- 	<script src="./js/jquery-3.2.1.min.js"></script>
-	<script src="./js/alertify.min.js"></script> -->
 
     <script type="text/javascript">
 	    var urlParams = new URLSearchParams(window.location.search);

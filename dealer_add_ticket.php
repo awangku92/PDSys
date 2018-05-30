@@ -14,7 +14,7 @@ session_start();
 //call session user
 $user = $_SESSION["user"];
 
-if ( !isset($_SESSION["user"]) && $user->getUserType() === "C"){
+if ( !isset($_SESSION["user"]) && $user->getUserType() !== "D"){
 	header("Location: /PDsys/");
 }
 
@@ -34,7 +34,7 @@ $CategoryArr = $allTicket->getAllCategory();
 
 //get current dateTime
 $datetime = $generalController->getDateTime();
-$branchID = $allTicket->getBranchID($user->getUID());
+$branchID = $allTicket->getBranchID($user->getUID(), $user->getState());
 ?>
 
 <!DOCTYPE html>

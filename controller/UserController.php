@@ -105,6 +105,34 @@ class UserController {
 
       return $result;
   }
+
+  public function getCompany ($state){
+    $db = new db();
+    $company = new stdClass();
+
+    $conn = $db->connect();
+
+    $sql  = "SELECT UID, CompanyName, FullName, Contact FROM user WHERE State = ? AND UserType = 'C'";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $state);
+
+    /* execute query */
+    $stmt->execute();       
+
+    $result = $stmt->get_result();
+
+    //var_dump($result);
+
+    // /* free results */
+    $stmt->free_result();
+
+    $stmt->close();
+    $conn->close();
+    //var_dump($result);
+    return $result;
+  }
+
 }
 
 ?>

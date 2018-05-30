@@ -29,7 +29,6 @@ class TicketController {
 
     public function getStatus($statusID){
         $db = new db();
-        $status = new stdClass();
 
         $conn = $db->connect();
 
@@ -37,6 +36,38 @@ class TicketController {
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $statusID);
+
+        /* execute query */
+        $stmt->execute();       
+
+        /* Store the result (to get properties) */
+        $stmt->store_result();
+
+        /* Bind the result to variables */
+        $stmt->bind_result($StatusDetail);
+
+        while ($stmt->fetch()){
+            //var_dump($StatusDetail);
+        }
+
+        /* free results */
+        $stmt->free_result();
+
+        $stmt->close();
+        $conn->close();
+
+        return $StatusDetail;
+    }
+
+    public function getStatusID($status){
+        $db = new db();
+
+        $conn = $db->connect();
+
+        $sql  = "SELECT StatusID FROM status WHERE StatusDetail = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $status);
 
         /* execute query */
         $stmt->execute();       
@@ -174,15 +205,15 @@ class TicketController {
         return $date."_".$time."_TIC".$totalTicket;
     }
 
-    public function getBranchID ($userID){
+    public function getBranchID ($userID, $state){
         $db = new db();
 
         $conn = $db->connect();
 
-        $sql  = "SELECT BranchesID FROM branches WHERE UID = ?";
+        $sql  = "SELECT BranchesID FROM branches WHERE UID = ? AND State = ?";
 
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $userID);
+        $stmt->bind_param("is", $userID, $state);
 
         /* execute query */
         $stmt->execute();       
@@ -256,7 +287,37 @@ class TicketController {
         }
     }
 
+    public function getAppoimentDateTime($ticketID){
+        $db = new db();
 
+        $conn = $db->connect();
+
+        $sql  = "SELECT PostponeDateTime FROM logtickets WHERE TicketID = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $ticketID);
+
+        /* execute query */
+        $stmt->execute();       
+
+        /* Store the result (to get properties) */
+        $stmt->store_result();
+
+        /* Bind the result to variables */
+        $stmt->bind_result($DateTime);
+
+        while ($stmt->fetch()){
+            //var_dump($StatusDetail);
+        }
+
+        /* free results */
+        $stmt->free_result();
+
+        $stmt->close();
+        $conn->close();
+
+        return $DateTime;
+    }
 
 
     // public function getCategoryID ($categoryType){

@@ -13,7 +13,7 @@ session_start();
 //call session user
 $user = $_SESSION["user"];
 
-if ( !isset($_SESSION["user"]) && $user->getUserType() === "C"){
+if ( !isset($_SESSION["user"]) && $user->getUserType() !== "C"){
 	header("Location: /PDsys/");
 }
 

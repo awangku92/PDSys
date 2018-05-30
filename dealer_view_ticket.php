@@ -6,6 +6,7 @@ require __DIR__ . '/controller/UserController.php';
 require __DIR__ . '/model/TicketModelClass.php';
 require __DIR__ . '/model/UserModelClass.php';
 require __DIR__ . '/model/StatusModelClass.php';
+require __DIR__ . '/model/CategoryModelClass.php';
 
 session_start();
 
@@ -18,8 +19,14 @@ if ($user->getUserType() !== "D"){
 
 $allTicket = new TicketController();
 $allUser = new UserController();
+
+//get ticket
 $ticket = new stdClass();
 $ticketArr = $allTicket->getAllTicket();
+
+//get category
+$category = new stdClass();
+$CategoryArr = $allTicket->getAllCategory();
 ?>
 
 <!DOCTYPE html>
@@ -384,8 +391,17 @@ $ticketArr = $allTicket->getAllTicket();
 														<div class="form-group row">
 															<label class="col-sm-2 col-form-label">CATEGORY</label>
 															<div class="col-sm-6">
-																<select class="form-control">
-																	<option></option>
+																<select class="form-control" id="category" name="category">
+																	<option hidden selected>-Please select-</option>
+																	<!-- get category then loop the option -->
+																	<?php 
+																		foreach ($CategoryArr as $cRow) {
+																			$category = new category($cRow["CategoryID"], $cRow["CategoryType"], $cRow["Priority"]);
+																			?>
+																				<option value="<?php echo $category->getCategoryID() ?>"><?php echo $category->getCategoryType() ?></option>
+																			<?php
+																		}
+																	?>	
 																</select>
 															</div>
 														</div>
