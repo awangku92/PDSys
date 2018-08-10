@@ -71,8 +71,11 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$registeration = new UserController();
 	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password);
 
+	// no check function whether register success or not.
+	 
+
 	$status = "success";
-	header("Location: /PDSys/status=$status");
+	header("Location: /PDSys/index.php?status=$status");
 } else if ( strpos($operation, 'LogOut') !== false ){
 	require __DIR__ . '/UserController.php';
 	$req = new UserController();
