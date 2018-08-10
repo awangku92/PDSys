@@ -42,6 +42,7 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	
 	require __DIR__ . '/UserController.php';
 	require __DIR__ . '/../model/UserModelClass.php';
+	require __DIR__ . '/GeneralController.php';
 
 	if ($_POST['usertype'] === "HQ") {
 		$fullname    = $_POST['fullnameHQ'];
