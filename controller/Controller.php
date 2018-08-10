@@ -125,6 +125,46 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 		$status = "open_ticket_failed";
 		header("Location: /PDSys/dealer_add_ticket.php?status=$status");
 	}
+} else if ( strpos($operation, 'CloseTicket') !== false ){
+	//do update postpone logic here
+	require_once __DIR__ . '/TicketController.php';
+
+	$TicketController = new TicketController();
+
+	//get $_post
+	$TicketID 			= $_POST['ticketID'];
+	$StatusID 			= $_POST['status'];
+	$URL	  			= $_POST['URL'];
+	$UserID 	   		= $_POST['userID'];
+	$DateTime      		= $_POST['dateTime'];
+	$CategoryID    		= $_POST['category'];
+	$Detail  	   		= $_POST['detail']; 
+	$UIDContractor 		= $_POST['uidContractor'];
+	$postponeDateTime  	= $_POST['appoimentDateTime'];
+
+	//close DONE tiket
+	$boolCloseTicket = $TicketController->closeTicket($TicketID, $StatusID);
+
+	if ($boolCloseTicket){
+		//if success close ticket then log the ticket
+	    $reason             = "";
+		$boolLogTickets = $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+
+		//success create and log, then return to view
+		if ($boolLogTickets){
+			$status = "close_ticket_success";
+			header("Location: ".$_POST['URL']."?status=$status");
+		} else {
+			//else log failed, delete ticket n return failed
+			$status = "log_ticket_failed";
+			header("Location: ".$_POST['URL']."?status=$status");
+		}
+		
+	} else {
+		$status = "close_ticket_failed";
+		header("Location: ".$_POST['URL']."?status=$status");
+	}
+
 } else if ( strpos($operation, 'UpdatePostponeTicket') !== false ){
 	//do update postpone logic here
 	require_once __DIR__ . '/TicketController.php';
@@ -139,12 +179,9 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$Detail  	   = $_POST['detail']; 
 	$StatusID 	   = $TicketController->getStatusID($_POST['status']); //get statusID from status
 	$UIDContractor = $_POST['uidContractor'];
-	$postponeDate  = $_POST['appoimentDate'];
-	$postponeTime  = $_POST['appoimentTime'];
+	$postponeDateTime  = $_POST['appoimentDateTime'];
 
 	//update ticket
-	//$boolUpdateTicket = $TicketController->updateTicket($TicketID, $postponeDate, $postponeTime);
-	$postponeDateTime   = $postponeDate." ".$postponeTime;
     $reason 			= "";
 	$boolLogTickets 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
 

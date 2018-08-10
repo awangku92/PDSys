@@ -4,6 +4,8 @@ class GeneralController {
 
     public function getRegion ($state){
 
+        $region ="";
+
         switch ($state) {
             case "Perlis":
             case "Kedah":

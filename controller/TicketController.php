@@ -267,7 +267,7 @@ class TicketController {
         $db = new db();
 
         $conn = $db->connect();
-
+        //var_dump($postponeDateTime);
         //insert into logtickets
         $sqlLogTickets = "INSERT INTO logtickets (TicketID, UID, DateTime, PostponeDateTime, StatusID, Reason, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -287,12 +287,38 @@ class TicketController {
         }
     }
 
+    public function closeTicket($ticketID, $statusID) {
+        $sqlCloseTicket = "";
+        $db = new db();
+
+        $conn = $db->connect();
+
+        //insert into logtickets
+        //$sqlCloseTicket = "INSERT INTO logtickets (TicketID, UID, DateTime, PostponeDateTime, StatusID, Reason, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sqlCloseTicket = "UPDATE ticket SET StatusID = ? WHERE TicketID = ?";
+
+        $stmtCloseTicket = $conn->prepare($sqlCloseTicket);
+
+        $stmtCloseTicket->bind_param("ss", $statusID, $ticketID);
+
+        $resulCloseTicket = $stmtCloseTicket->execute();
+
+        $stmtCloseTicket->close();
+        $conn->close();
+
+        if ($resulCloseTicket){
+            return True;
+        }else{
+            return False;
+        }
+    }
+
     public function getAppoimentDateTime($ticketID){
         $db = new db();
 
         $conn = $db->connect();
 
-        $sql  = "SELECT PostponeDateTime FROM logtickets WHERE TicketID = ?";
+        $sql  = "SELECT MAX(PostponeDateTime) FROM logtickets WHERE TicketID = ?";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $ticketID);
