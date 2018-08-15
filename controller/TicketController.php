@@ -327,6 +327,31 @@ class TicketController {
         }
     }
 
+    public function getTicketContractor($contractorID){        
+ 
+        $sql = "SELECT UID, FullName, Contact FROM user WHERE UID = ?";
+
+        $db = new db();
+        $conn = $db->connect();
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i",$contractorID);
+
+        $stmt->execute();
+
+        $stmt->bind_result($UID, $FullName, $Contact);
+
+        $result = array();
+
+        if($stmt->fetch()) {
+            $result = array('UID'=>$UID, 'FullName'=>$FullName, 'Contact'=>$Contact);
+        }
+
+        $stmt->close();
+        $conn->close();
+
+        return $result;
+    }
+
     // public function getCategoryID ($categoryType){
     //     $db = new db();
 
