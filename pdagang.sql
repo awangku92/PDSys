@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 12, 2018 at 07:44 PM
+-- Generation Time: Aug 15, 2018 at 07:47 AM
 -- Server version: 5.7.11
 -- PHP Version: 7.0.3
 
@@ -35,17 +35,6 @@ CREATE TABLE `branches` (
   `State` varchar(50) NOT NULL,
   `Region` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `branches`
---
-
-INSERT INTO `branches` (`BranchesID`, `UID`, `Address1`, `Address2`, `Postcode`, `State`, `Region`) VALUES
-('KD', 2, 'KD Addr l1', 'KD Addr l2', 40400, 'Selangor', 'C'),
-('MD', 2, 'MD Addr l1', 'MD Addr l2', 40000, 'Selangor', 'C'),
-('SBH', 3, 'SBH Addr l1', 'SBH Addr l2', 54321, 'Sabah', 'SB'),
-('SRK', 3, 'SRK Addr l1', 'SRK Addr l2', 43215, 'Sarawak', 'SK'),
-('TG', 2, 'TG Addr l1', 'TG Addr l2', 21345, 'Terengganu', 'E');
 
 -- --------------------------------------------------------
 
@@ -91,15 +80,10 @@ CREATE TABLE `logtickets` (
 --
 
 INSERT INTO `logtickets` (`SearchID`, `TIcketID`, `UID`, `DateTime`, `PostponeDateTime`, `StatusID`, `Reason`, `UIDContractor`) VALUES
-(1, '20180301_1330_TIC001', 2, '2018-03-01 13:30:00', NULL, 'I', '', 6),
-(2, '20180301_1330_TIC001', 2, '2018-03-01 13:30:00', NULL, 'D', '', 6),
-(3, '20180301_1330_TIC002', 2, '2018-03-03 09:30:00', NULL, 'I', '', 4),
-(4, '20180301_1530_TIC003', 3, '2018-03-01 15:30:00', NULL, 'I', '', 5),
-(5, '20180303_1330_TIC004', 3, '2018-03-03 13:30:00', NULL, 'I', '', 5),
-(6, '20180303_1330_TIC004', 3, '2018-03-03 13:30:00', '2018-03-10 13:30:00', 'P', '', 5),
-(7, '20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'I', '', 4),
-(8, '20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'D', '', 4),
-(9, '20180201_1330_TIC005', 2, '2018-02-01 13:30:00', NULL, 'C', '', 4);
+(57, '20180815_1208_TIC1', 19, '2018-08-15 12:08:44', NULL, 'IP', '', 0),
+(60, '20180815_1208_TIC1', 19, '2018-08-15 12:08:44', '2018-08-15 14:02:00', 'IP', '', 21),
+(61, '20180815_0212_TIC2', 19, '2018-08-15 14:12:43', NULL, 'IP', '', 0),
+(62, '20180815_0212_TIC2', 19, '2018-08-15 14:12:43', '2018-08-15 14:27:00', 'IP', '', 21);
 
 -- --------------------------------------------------------
 
@@ -109,19 +93,20 @@ INSERT INTO `logtickets` (`SearchID`, `TIcketID`, `UID`, `DateTime`, `PostponeDa
 
 CREATE TABLE `status` (
   `StatusID` varchar(50) NOT NULL,
-  `StatusDetail` text NOT NULL
+  `StatusDetail` text NOT NULL,
+  `Description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `status`
 --
 
-INSERT INTO `status` (`StatusID`, `StatusDetail`) VALUES
-('C', 'Close'),
-('D', 'Done'),
-('I', 'Incomplete'),
-('IP', 'Inprogress'),
-('P', 'Postpone');
+INSERT INTO `status` (`StatusID`, `StatusDetail`, `Description`) VALUES
+('C', 'Close', 'Can only be assigned when Dealer assigned Done Status'),
+('D', 'Done', 'Can only be assigned only by Dealer'),
+('I', 'Incomplete', 'If contractor cannot finish on time, Contractor will deal with Dealer for new date'),
+('IP', 'Inprogress', 'When ticket is created by Dealer, and assigned Contractor and Date by HQ (Default Status)'),
+('P', 'Postpone', 'If both party inform by the Contractor why they cannot come on the date');
 
 -- --------------------------------------------------------
 
@@ -134,7 +119,7 @@ CREATE TABLE `ticket` (
   `UID` int(50) NOT NULL,
   `SearchID` int(11) NOT NULL,
   `DateTime` datetime NOT NULL,
-  `BranchID` varchar(50) NOT NULL,
+  `State` varchar(50) NOT NULL,
   `CategoryID` varchar(50) NOT NULL,
   `StatusID` varchar(50) NOT NULL,
   `Detail` text NOT NULL,
@@ -145,12 +130,9 @@ CREATE TABLE `ticket` (
 -- Dumping data for table `ticket`
 --
 
-INSERT INTO `ticket` (`TicketID`, `UID`, `SearchID`, `DateTime`, `BranchID`, `CategoryID`, `StatusID`, `Detail`, `UIDContractor`) VALUES
-('20180201_1330_TIC005', 2, 5, '2018-02-01 13:30:00', 'MD', 'D3', 'C', 'Auto nozel problem', 4),
-('20180301_1330_TIC001', 2, 1, '2018-03-01 13:30:00', 'KD', 'D1', 'D', 'Pump has been damaged, need immediate repair. ', 6),
-('20180301_1530_TIC003', 3, 3, '2018-03-01 15:30:00', 'SBH', 'D1', 'I', 'Pump damaged, need to replace', 5),
-('20180303_0930_TIC002', 2, 2, '2018-03-03 09:30:00', 'TG', 'D2', 'IP', 'Petrol did not come out. Need to check', 4),
-('20180303_1330_TIC004', 3, 4, '2018-03-03 13:30:00', 'SRK', 'D4', 'P', 'Price is not tally, might because of another reason, need to recheck', 5);
+INSERT INTO `ticket` (`TicketID`, `UID`, `SearchID`, `DateTime`, `State`, `CategoryID`, `StatusID`, `Detail`, `UIDContractor`) VALUES
+('20180815_0212_TIC2', 19, 44, '2018-08-15 14:12:43', 'Selangor', 'D2', 'IP', 'leaking ', 21),
+('20180815_1208_TIC1', 19, 43, '2018-08-15 12:08:44', 'Selangor', 'D1', 'IP', 'Stolen pump', 21);
 
 -- --------------------------------------------------------
 
@@ -171,21 +153,20 @@ CREATE TABLE `user` (
   `Region` varchar(50) DEFAULT NULL,
   `FullName` varchar(100) DEFAULT NULL,
   `Contact` varchar(20) DEFAULT NULL,
-  `UserStatus` int(11) NOT NULL DEFAULT '0'
+  `UserStatus` int(11) NOT NULL DEFAULT '0',
+  `Branch` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`UID`, `Email`, `Password`, `UserType`, `CompanyName`, `CompAddress1`, `CompAddress2`, `Postcode`, `State`, `Region`, `FullName`, `Contact`, `UserStatus`) VALUES
-(1, 'HQ1@y.c', 'HQ1', 'HQ', NULL, NULL, NULL, NULL, NULL, NULL, 'HEADQUARTERS', NULL, 1),
-(2, 'D1@y.c', 'D1', 'D', NULL, NULL, NULL, NULL, NULL, NULL, 'DEALER', NULL, 1),
-(3, 'D2@y.c', 'D2', 'D', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0),
-(4, 'C1@y.c', 'C1', 'C', 'Company Contractor 1', 'Comp Addr l1', 'Comp Addr l2', 40400, 'Selangor', 'C', 'Didiy Kacak', '0123456789', 1),
-(5, 'C2@y.c', 'C2', 'C', 'Company Contractor 2', 'Comp Addr l1', 'Comp Addr l2', 40000, 'Sarawak', 'SK', 'Mie Hensem', '0123456789', 0),
-(6, 'C3@y.c', 'C3', 'C', 'Company Contractor 3', 'Comp Addr l1', 'Comp Addr l2', 32145, 'Kuala Lumpur', 'C', 'Fairus Bergaya', '0100011001', 0),
-(11, 'awang@gmail.com', 'aaa', 'HQ', NULL, NULL, NULL, NULL, NULL, NULL, 'awangku', '0123456789', 0);
+INSERT INTO `user` (`UID`, `Email`, `Password`, `UserType`, `CompanyName`, `CompAddress1`, `CompAddress2`, `Postcode`, `State`, `Region`, `FullName`, `Contact`, `UserStatus`, `Branch`) VALUES
+(18, 'hq@petronas.my', 'hq', 'HQ', NULL, NULL, NULL, NULL, NULL, NULL, 'Petronas HQ', '0191234567', 1, NULL),
+(19, 'didiy@petronas.my', 'didiy', 'D', NULL, 'Jln Sepah Puteri', 'KD', 12345, 'Selangor', 'Central', 'Didiy Harjono', '031234567', 1, 'Kota Damansara'),
+(20, 'mi@petronas.my', 'mi', 'D', NULL, 'Tepi masjid', 'dekat melaka', 54321, 'Melaka', 'Southern', 'Miey Azwa', '012345678', 1, 'Masjid Tanah'),
+(21, 'fairus@petronas.my', 'fairus', 'C', 'Contractor Petronas 1', 'PJTC', 'Damansara Perdana', 56789, 'Selangor', 'Central', 'Fairus Munir', '0123456789', 1, NULL),
+(22, 'awang@petronas.my', 'awang', 'C', 'Contractor Petronas 2', 'Bandar Melaka', 'dekat melaka', 23123, 'Melaka', 'Southern', 'Awang', '0123456789', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -261,17 +242,17 @@ ALTER TABLE `usertype`
 -- AUTO_INCREMENT for table `logtickets`
 --
 ALTER TABLE `logtickets`
-  MODIFY `SearchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `SearchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 --
 -- AUTO_INCREMENT for table `ticket`
 --
 ALTER TABLE `ticket`
-  MODIFY `SearchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `SearchID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `UID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `UID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

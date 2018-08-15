@@ -2,9 +2,9 @@
 
 class User {
 
-	var $UID, $Email, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact;
+	var $UID, $Email, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact, $Branch;
 
-	public function __construct($UID, $Email, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact) {
+	public function __construct($UID, $Email, $Password, $UserType, $CompanyName, $CompAddress1, $CompAddress2, $Postcode, $State, $Region, $FullName, $UserStatus, $Contact, $Branch) {
 		$this->setUID($UID);
 		$this->setEmail($Email);
 		$this->setPassword($Password);
@@ -18,6 +18,7 @@ class User {
 		$this->setFullName($FullName);
 		$this->setUserStatus($UserStatus);
 		$this->setContact($Contact);
+		$this->setBranch($Branch);
 	}
 
 	// UID
@@ -135,6 +136,15 @@ class User {
 
 	public function getUserStatus() {
 		return $this->UserStatus;
+	}
+
+	// branch
+	public function setBranch($newval) {
+		$this->Branch = $newval;
+	}
+
+	public function getBranch() {
+		return $this->Branch;
 	}
 }
 

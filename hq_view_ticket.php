@@ -12,8 +12,9 @@ session_start();
 //call session user
 $user = $_SESSION["user"];
 
-if ($user->getUserType() !== "HQ"){
+if (!isset($_SESSION["user"]) && $user->getUserType() !== "HQ"){
 	header("Location: /PDsys/");
+	die();
 }
 
 $allTicket = new TicketController();
@@ -65,13 +66,6 @@ $ticketArr = $allTicket->getAllTicket();
 	  		} 
 	  	});
 
-	 //  	//datetime picker function
-		// $(function() {
-		// 	$('#datetimepicker').datetimepicker({
-		// 		format : 'YYYY-MM-DD HH:mm'
-		// 	});
-		// });
-
 		// onselect unhide button
 		$(function(){
 		    $('#status').change(function(){
@@ -82,51 +76,23 @@ $ticketArr = $allTicket->getAllTicket();
 		    });
 		});
 
-		// onselect unhide button
+		// onchange button
 		$(function(){
 		    $('#companyName').change(function(){
 		       var strValue = $(this).val();
 
 		       	myArray = strValue.split("/");
 			
-				var uid 		= myArray[0];
-				var companyname = myArray[1];
-				var fullname 	= myArray[2];
-				var contact 	= myArray[3];
-				//alert(uid);
-				//document.getElementById("uidContractorIP").value = uid;
+				// var uid 		= myArray[0];
+				// var companyname = myArray[1];
+				// var fullname 	= myArray[2];
+				// var contact 	= myArray[3];
 
-				//('#fucker').attr('value', uid);
-				// document.getElementById("fucker").value = uid;
-				// document.getElementById('uidContractorIP').innerHTML=uid;
-
-				//var appID = $(this).attr('data-id');
-				//document.getElementById('uidContractorIP').innerHTML
-				//alert(appID);
-
+				document.getElementById("uidContractorIP").value = myArray[0];
+				document.getElementById("fullNameIP").value = myArray[2];
+				document.getElementById("contactIP").value = myArray[3];
 		    });
 		});
-
-		// function selectFunction(){
-	 //  		var strValue = document.getElementById("companyName").value;
-		// 	myArray = strValue.split("/");
-			
-		// 	var uid 		= myArray[0];
-		// 	var companyname = myArray[1];
-		// 	var fullname 	= myArray[2];
-		// 	var contact 	= myArray[3];
-
-		// 	//var a = document.getElementById("uidContractorIP").value;
-  // 			//a.value = "some value";
-  // 			alert(document.getElementById("uidContractor").value);
-	 //  		document.getElementById("uidContractor").value = uid;
-	 //  		//$("#uidContractor").val("aasdad");
-	 //  		//alert(uid);
-	 //  	}
-
-	  	// $( document ).ready(function() {
-    //     	alertify.success('Normal message');
-    // 	});
 	</script>
 </head>
 <body>
@@ -182,19 +148,16 @@ $ticketArr = $allTicket->getAllTicket();
 						      </tr>
 						    </thead>
 						    <tbody>
-
 						    	<?php 
 						    		foreach ($ticketArr as $row) {
 									    //var_dump( $ticket );
-									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
-									    //var_dump($row["Detail"]);
+									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["State"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
 
 									    //get Status from StatusID
 								    	$status = $allTicket->getStatus($row["StatusID"]);
-								    	//var_dump($status);
 
 								    	//get state info
-								    	$state = $allTicket->getState( $row["BranchID"]);
+								    	$state = $row["State"];
 								    	//var_dump($state);
 
 							    		//get category info
@@ -356,7 +319,7 @@ $ticketArr = $allTicket->getAllTicket();
 																		</script> -->
 																		<div class="form-group">
 															                <div class='input-group date' id='datetimepicker<?php echo $ticket->getTicketID(); ?>'>
-															                    <input type='text' class="form-control" name="appoimentDateTime" value="<?php echo $dateTime ?>" />
+															                    <input type="text" class="form-control" name="appoimentDateTime" value="<?php echo $dateTime ?>" />
 															                    <span class="input-group-addon" readonly>
 															                        <span class="glyphicon glyphicon-calendar"></span>
 															                    </span>
@@ -544,8 +507,7 @@ $ticketArr = $allTicket->getAllTicket();
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">DETAILS</label>
 																	<div class="col-sm-6">
-																		<textarea class="form-control" name="detail" placeholder="Describe the issue here" readonly><?php echo $ticket->getDetail() ?>
-																		</textarea>
+																		<textarea class="form-control" name="detail" placeholder="Describe the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
 																	</div>
 																</div>
 																<hr>
@@ -591,27 +553,25 @@ $ticketArr = $allTicket->getAllTicket();
 																}
 																?>
 																<!-- </div> -->
-																<!-- auto from company name -->
-																<!-- <div class="form-group row">
+																<!-- auto get from company name -->
+																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">CONTRACTOR ID</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" id="uidContractorIP" value="">
+																		<input class="form-control" type="text" id="uidContractorIP" name="uidContractorIP" value="" readonly>
 																	</div>
-																</div> -->
-																<!-- auto from company name -->
-																<!-- <div class="form-group row">
+																</div>
+																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">FULL NAME</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="fullName" value="<?php echo $FullName ?>" readonly>
+																		<input class="form-control" type="text" id="fullNameIP" name="fullNameIP" value="" readonly>
 																	</div>
-																</div> -->
-																<!-- auto from company name -->
-																<!-- <div class="form-group row">
+																</div>
+																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">CONTACT NO</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="contact" value="<?php echo $Contact ?>" readonly>
+																		<input class="form-control" type="text" id="contactIP" name="contactIP" value="" readonly>
 																	</div>
-																</div> -->
+																</div>
 																<div class="form-group row">
 																	<?php 
 																		// get date & time from log to here
@@ -624,29 +584,6 @@ $ticketArr = $allTicket->getAllTicket();
 																	<?php 
 																		if ($companyNameArr->num_rows === 0){
 																			?>
-																			<!-- <div class="col-sm-6">
-																					<input class="form-control" type="date" name="appoimentDate" value="<?php //echo $date ?>" readonly>
-																				</div>
-																				<div class="col-sm-6">
-																					<input class="form-control" type="time" name="appoimentTime" value="<?php //echo $time ?>" readonly>
-																				</div> -->
-																				<!-- <div class="col-sm-6">
-																					<script type="text/javascript">
-																						$(function() {
-																							$('#datetimepicker<?php //echo $ticket->getTicketID(); ?>').datetimepicker({
-																								format : 'YYYY-MM-DD HH:mm'
-																							});
-																						});
-																					</script>
-																					<div class="form-group">
-																		                <div class='input-group date' id='datetimepicker<?php //echo $ticket->getTicketID(); ?>'>
-																		                    <input type='text' class="form-control" name="appoimentDateTime" value="<?php //echo $dateTime ?>" />
-																		                    <span class="input-group-addon">
-																		                        <span class="glyphicon glyphicon-calendar"></span>
-																		                    </span>
-																		                </div>
-																		            </div>
-																				</div> -->
 																			<?php
 																		}else{
 																			?>
@@ -667,7 +604,7 @@ $ticketArr = $allTicket->getAllTicket();
 																					</script>
 																					<div class="form-group">
 																		                <div class='input-group date' id='datetimepicker<?php echo $ticket->getTicketID(); ?>'>
-																		                    <input type='text' class="form-control" name="appoimentDateTime" value="<?php //echo $dateTime ?>" />
+																		                    <input type='text' class="form-control" name="appoimentDateTimeIP" value="<?php //echo $dateTime ?>" />
 																		                    <span class="input-group-addon">
 																		                        <span class="glyphicon glyphicon-calendar"></span>
 																		                    </span>

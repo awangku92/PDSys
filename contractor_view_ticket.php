@@ -15,13 +15,15 @@ $user = $_SESSION["user"];
 
 if ( !isset($_SESSION["user"]) && $user->getUserType() !== "C"){
 	header("Location: /PDsys/");
+	die();
 }
 
 $allTicket = new TicketController();
 $allUser = new UserController();
 $allRegion = new GeneralController();
 $ticket = new stdClass();
-$ticketArr = $allTicket->getAllTicket();
+//$ticketArr = $allTicket->getAllTicket();
+$ticketArr = $allTicket->getTickets($user->getUID());
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +95,7 @@ $ticketArr = $allTicket->getAllTicket();
 						    	<?php 
 						    		foreach ($ticketArr as $row) {
 									    //var_dump( $ticket );
-									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
+									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["State"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
 									    //var_dump($row["Detail"]);
 
 									    //get Status from StatusID
@@ -101,7 +103,7 @@ $ticketArr = $allTicket->getAllTicket();
 								    	//var_dump($status);
 
 								    	//get state info
-								    	$state = $allTicket->getState( $row["BranchID"]);
+								    	$state = $row["State"];
 								    	//var_dump($state);
 
 							    		//get category info

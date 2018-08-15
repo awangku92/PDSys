@@ -27,6 +27,28 @@ class TicketController {
         return $result;
     }
 
+    public function getTickets ($UIDContractor){
+        $db = new db();
+
+        $conn = $db->connect();
+
+        $sql  = "SELECT * FROM ticket WHERE UIDContractor = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $UIDContractor);
+
+        /* execute query */
+        $stmt->execute();       
+
+        /* instead of bind_result */
+        $result = $stmt->get_result(); 
+
+        $stmt->close();
+        $conn->close();
+
+        return $result;
+    }
+
     public function getStatus($statusID){
         $db = new db();
 
@@ -89,38 +111,6 @@ class TicketController {
         $conn->close();
 
         return $StatusDetail;
-    }
-
-    public function getState ($branchID){
-        $db = new db();
-
-        $conn = $db->connect();
-
-        $sql  = "SELECT State FROM branches WHERE BranchesID = ?";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $branchID);
-
-        /* execute query */
-        $stmt->execute();       
-
-        /* Store the result (to get properties) */
-        $stmt->store_result();
-
-        /* Bind the result to variables */
-        $stmt->bind_result($State);
-
-        while ($stmt->fetch()){
-            //var_dump($StatusDetail);
-        }
-
-        /* free results */
-        $stmt->free_result();
-
-        $stmt->close();
-        $conn->close();
-
-        return $State;
     }
 
     public function getCategoryType ($categoryID){
@@ -205,50 +195,18 @@ class TicketController {
         return $date."_".$time."_TIC".$totalTicket;
     }
 
-    public function getBranchID ($userID, $state){
-        $db = new db();
-
-        $conn = $db->connect();
-
-        $sql  = "SELECT BranchesID FROM branches WHERE UID = ? AND State = ?";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("is", $userID, $state);
-
-        /* execute query */
-        $stmt->execute();       
-
-        /* Store the result (to get properties) */
-        $stmt->store_result();
-
-        /* Bind the result to variables */
-        $stmt->bind_result($BranchID);
-
-        while ($stmt->fetch()){
-            //var_dump($StatusDetail);
-        }
-
-        /* free results */
-        $stmt->free_result();
-
-        $stmt->close();
-        $conn->close();
-
-        return $BranchID;
-    }
-
-    public function openTicket($ticketID, $userID, $dateTime, $branchID, $categoryID, $statusID, $detail, $uIDContractor){
+    public function openTicket($ticketID, $userID, $dateTime, $state, $categoryID, $statusID, $detail, $uIDContractor){
         $sqlTicket = "";
         $db = new db();
 
         $conn = $db->connect();
 
         //insert into ticket
-        $sqlTicket = "INSERT INTO ticket (TicketID, UID, DateTime, BranchID, CategoryID, StatusID, Detail, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sqlTicket = "INSERT INTO ticket (TicketID, UID, DateTime, State, CategoryID, StatusID, Detail, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmtTicket = $conn->prepare($sqlTicket);
 
-        $test = $stmtTicket->bind_param("sisssssi", $ticketID, $userID, $dateTime, $branchID, $categoryID, $statusID, $detail, $uIDContractor);
+        $test = $stmtTicket->bind_param("sisssssi", $ticketID, $userID, $dateTime, $state, $categoryID, $statusID, $detail, $uIDContractor);
 
         $resultTicket = $stmtTicket->execute();
 
@@ -267,7 +225,6 @@ class TicketController {
         $db = new db();
 
         $conn = $db->connect();
-        //var_dump($postponeDateTime);
         //insert into logtickets
         $sqlLogTickets = "INSERT INTO logtickets (TicketID, UID, DateTime, PostponeDateTime, StatusID, Reason, UIDContractor) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -345,6 +302,30 @@ class TicketController {
         return $DateTime;
     }
 
+    public function updateTicketUID($ticketID, $UIDContractor) {
+        $sql = "";
+        $db = new db();
+
+        $conn = $db->connect();
+
+        //update UID
+        $sql = "UPDATE ticket SET UIDContractor = ? WHERE TicketID = ?";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bind_param("is", $UIDContractor, $ticketID);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+        $conn->close();
+
+        if ($result){
+            return True;
+        }else{
+            return False;
+        }
+    }
 
     // public function getCategoryID ($categoryType){
     //     $db = new db();

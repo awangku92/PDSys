@@ -115,7 +115,77 @@
 								</div>
 							</div>
 
-							<div id="others" style="display: none;">
+							<div id="dealer" style="display: none;">
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_user.png"></span>
+									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullname">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_mail.png"></span>
+									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="email">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_lock.png"></span>
+									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="password">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_home.png"></span>
+									<input type="text" class="form-control" placeholder="Branch Name" aria-describedby="basic-addon1" name="branch">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate.png"></span>
+									<input type="text" class="form-control" placeholder="Address 1" aria-describedby="basic-addon1" name="compaddr1">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate.png"></span>
+									<input type="text" class="form-control" placeholder="Address 2" aria-describedby="basic-addon1" name="compaddr2">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate1.png"></span>
+									<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="basic-addon1" name="postalcode">
+								</div>
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_company.png"></span>
+									<!-- <input type="text" class="form-control" placeholder="State" aria-describedby="basic-addon1" name="state"> -->
+									<select class="form-control" id="state" name="state">
+										<option hidden selected>-Select State-</option>
+										<option value="Wilayah Persekutuan Kuala Lumpur">Wilayah Persekutuan Kuala Lumpur</option>
+										<option value="Wilayah Persekutuan Labuan">Wilayah Persekutuan Labuan</option>
+										<option value="Wilayah Persekutuan Putrajaya">Wilayah Persekutuan Putrajaya</option>
+										<option value="Johor">Johor</option>
+										<option value="Kedah">Kedah</option>
+										<option value="Kelantan">Kelantan</option>
+										<option value="Melaka">Melaka</option>
+										<option value="Negeri Sembilan">Negeri Sembilan</option>
+										<option value="Pahang">Pahang</option>
+										<option value="Perak">Perak</option>
+										<option value="Perlis">Perlis</option>
+										<option value="Penang">Penang</option>
+										<option value="Sabah">Sabah</option>
+										<option value="Sarawak">Sarawak</option>
+										<option value="Selangor">Selangor</option>
+										<option value="Terengganu">Terengganu</option>
+									</select>
+								</div>
+<!-- 							<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_map.png"></span>
+									<select class="form-control" id="region" name="region">
+										<option hidden selected>Region</option>
+										<option>Northern Region</option>
+										<option>Central Region</option>
+										<option>Southern Region</option>
+										<option>East Coast</option>
+										<option>Sabah</option>
+										<option>Sarawak</option>
+									</select>
+								</div> -->
+								<div class="input-group col-sm-7">
+									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_tel.png"></span>
+									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactno">
+								</div>
+							</div>
+
+							<div id="contractor" style="display: none;">
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_user.png"></span>
 									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullname">
@@ -167,7 +237,7 @@
 										<option value="Terengganu">Terengganu</option>
 									</select>
 								</div>
-<!-- 								<div class="input-group col-sm-7">
+<!-- 							<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_map.png"></span>
 									<select class="form-control" id="region" name="region">
 										<option hidden selected>Region</option>

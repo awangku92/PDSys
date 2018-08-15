@@ -33,7 +33,7 @@ class UserController {
 
     /* now you can fetch the results into an array - NICE */
     while( $row = $result->fetch_assoc() ) {
-      $user = new user($row["UID"], $row["Email"], $row["Password"], $row["UserType"], $row["CompanyName"], $row["CompAddress1"], $row["CompAddress2"], $row["Postcode"], $row["State"], $row["Region"], $row["FullName"], $row["UserStatus"], $row["Contact"]);
+      $user = new user($row["UID"], $row["Email"], $row["Password"], $row["UserType"], $row["CompanyName"], $row["CompAddress1"], $row["CompAddress2"], $row["Postcode"], $row["State"], $row["Region"], $row["FullName"], $row["UserStatus"], $row["Contact"], $row["Branch"]);
     }
 
     $_SESSION["user"] = $user;
@@ -52,15 +52,16 @@ class UserController {
     session_destroy(); 
   }
 
-  public function register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password){
+  public function register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password, $branch){
 
     $sql = "";
+    $sqlBranch = "";
     $db = new db();
 
     $conn = $db->connect();
 
     if ($usertype === "C" || $usertype === "D"){
-      $sql = "INSERT INTO user (Email, Password, UserType, CompanyName, CompAddress1, CompAddress2, Postcode, State, Region, FullName, Contact) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      $sql = "INSERT INTO user (Email, Password, UserType, CompanyName, CompAddress1, CompAddress2, Postcode, State, Region, FullName, Contact, Branch) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     } else if ($usertype === "HQ"){
       $sql = "INSERT INTO user (Email, Password, UserType,FullName, Contact) VALUES (?, ?, ?, ?, ?)";
     }
@@ -68,7 +69,7 @@ class UserController {
     $stmt = $conn->prepare($sql);
 
     if ($usertype === "C" or $usertype === "D"){
-      $stmt->bind_param("ssssssissss", $email, $password, $usertype, $companyname, $compaddr1, $compaddr2, $postalcode, $state, $region, $fullname, $contactno);
+      $stmt->bind_param("ssssssisssss", $email, $password, $usertype, $companyname, $compaddr1, $compaddr2, $postalcode, $state, $region, $fullname, $contactno, $branch);
     } else if ($usertype === "HQ"){
       $stmt->bind_param("sssss", $email, $password, $usertype, $fullname, $contactno);
     }
@@ -77,6 +78,8 @@ class UserController {
 
     $stmt->close();
     $conn->close();
+
+    return $stmt;
   }
 
   public function getContractor ($UID){

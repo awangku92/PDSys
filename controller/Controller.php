@@ -26,15 +26,12 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	$userType = $crendential->login($email,$password);
 
 	if ($userType === "HQ"){
-		// header("Location: /PdagangSystem/hq_index.php");
 		header("Location: /PDSys/hq_view_ticket.php");
 		die();
 	} else if ($userType === "D") {
-		//header("Location: /PdagangSystem/dealer_index.php");
 		header("Location: /PDSys/dealer_view_ticket.php");
 		die();
 	} else if ($userType === "C") {
-		//header("Location: /PdagangSystem/c_index.php");
 		header("Location: /PDSys/contractor_view_ticket.php");
 		die();
 	} 
@@ -56,31 +53,38 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 		$password    = $_POST['password'];
 	}
 
+	if ($_POST['usertype'] === "D") {
+		$branch      = $_POST['branch'];
+	}else{
+		$companyname = $_POST['companyname'];
+	}
+
 	$usertype    = $_POST['usertype'];
-	$companyname = $_POST['companyname'];
 	$compaddr1   = $_POST['compaddr1'];
 	$compaddr2   = $_POST['compaddr2'];
 	$postalcode  = $_POST['postalcode'];
 
 	//hardcode region, get from state
 	$state       = $_POST['state'];
-	//$region      = $_POST['region'];
+
 	$data = new GeneralController();
 	$region = $data->getRegion($state);
 
 	$registeration = new UserController();
-	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password);
+	$registeration->register ($usertype, $fullname, $contactno, $companyname, $compaddr1, $compaddr2, $state, $postalcode, $region, $email, $password, $branch);
 
 	// no check function whether register success or not.
 	 
 
 	$status = "success";
 	header("Location: /PDSys/index.php?status=$status");
+	die();
 } else if ( strpos($operation, 'LogOut') !== false ){
 	require __DIR__ . '/UserController.php';
 	$req = new UserController();
 	$req->logout();
 	header("Location: /PDSys/");
+	die();
 }
 else if ( strpos($operation, 'OpenTicket') !== false ){
 	//get $_post
@@ -92,14 +96,14 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$BranchID 		= $_POST['branchID'];
 	$StatusID 		= $_POST['statusID'];
 	$UIDContractor 	= "";
-
-	//var_dump($BranchID);
+	$State 			= $_POST['state'];
 
 	//check category & details make sure not empty
-	if (($Detail === "") || ($CategoryID === "-Please select-")){
+	if ( ($Detail === "") || ($CategoryID === "-Please select-") ) {
 		//field is required, return to page
 		$status = "error";
 		header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+		die();
 	}
 
 	//open ticket function
@@ -108,7 +112,7 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	//$CategoryID = $TicketController->getCategoryID($CategoryType);
 
 	//open new tiket
-	$boolOpenTicket = $TicketController->openTicket($TicketID, $UserID, $DateTime, $BranchID, $CategoryID, $StatusID, $Detail, $UIDContractor);
+	$boolOpenTicket = $TicketController->openTicket($TicketID, $UserID, $DateTime, $State, $CategoryID, $StatusID, $Detail, $UIDContractor);
 
 	if ($boolOpenTicket){
 		//if success create ticket then log the ticket
@@ -119,16 +123,20 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 		//success create and log, then return to view
 		if ($boolLogTickets){
 			header("Location: /PDSys/dealer_view_ticket.php");
+			die();
 		} else {
 			//else log failed, delete ticket n return failed
 			$status = "log_ticket_failed";
 			header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+			die();
 		}
 		
 	} else {
 		$status = "open_ticket_failed";
 		header("Location: /PDSys/dealer_add_ticket.php?status=$status");
+		die();
 	}
+
 } else if ( strpos($operation, 'CloseTicket') !== false ){
 	//do update postpone logic here
 	require_once __DIR__ . '/TicketController.php';
@@ -158,15 +166,18 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 		if ($boolLogTickets){
 			$status = "close_ticket_success";
 			header("Location: ".$_POST['URL']."?status=$status");
+			die();
 		} else {
 			//else log failed, delete ticket n return failed
 			$status = "log_ticket_failed";
 			header("Location: ".$_POST['URL']."?status=$status");
+			die();
 		}
 		
 	} else {
 		$status = "close_ticket_failed";
 		header("Location: ".$_POST['URL']."?status=$status");
+		die();
 	}
 
 } else if ( strpos($operation, 'UpdatePostponeTicket') !== false ){
@@ -200,6 +211,7 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 
 	//return to URL
 	header("Location: ".$_POST['URL']."?status=$status");
+	die();
 
 } else if ( strpos($operation, 'UpdateInprogressTicket') !== false ){
 	//do update postpone logic here
@@ -214,27 +226,32 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$CategoryID    = $_POST['category'];
 	$Detail  	   = $_POST['detail']; 
 	$StatusID 	   = $TicketController->getStatusID($_POST['status']); //get statusID from status
-	$UIDContractor = $_POST['uidContractor'];
-	$postponeDate  = $_POST['appoimentDate'];
-	$postponeTime  = $_POST['appoimentTime'];
+	$UIDContractor = $_POST['uidContractorIP'];
+	$postponeDateTime = $_POST['appoimentDateTimeIP'];
 
 	//update ticket
-	//$boolUpdateTicket = $TicketController->updateTicket($TicketID, $postponeDate, $postponeTime);
-	$postponeDateTime   = $postponeDate." ".$postponeTime;
     $reason 			= "";
-	$boolLogTickets 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+    $boolTicket 	= $TicketController->updateTicketUID($TicketID, $UIDContractor);
 
-	//success create and log, then return to view
-	if ($boolLogTickets){
-		//success log, no need to do anything
-		$status = "updated";
-	} else {
-		//else log failed, delete ticket n return failed
-		$status = "error_update";
-	}
+    if ($boolTicket){
+	    //update logtickets
+		$boolLogTicket 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+
+		//success create and log, then return to view
+		if ($boolLogTicket){
+			//success log, no need to do anything
+			$status = "updated";
+		} else {
+			//else log failed, delete ticket n return failed
+			$status = "error_update";
+		}
+    }else{
+    	$status = "error_update";
+    }
 
 	//return to URL
 	header("Location: ".$_POST['URL']."?status=$status");
+	die();
 }
 
 ?>

@@ -16,6 +16,7 @@ $user = $_SESSION["user"];
 
 if ( !isset($_SESSION["user"]) && $user->getUserType() !== "D"){
 	header("Location: /PDsys/");
+	die();
 }
 
 $allTicket = new TicketController();
@@ -34,7 +35,9 @@ $CategoryArr = $allTicket->getAllCategory();
 
 //get current dateTime
 $datetime = $generalController->getDateTime();
-$branchID = $allTicket->getBranchID($user->getUID(), $user->getState());
+
+$branchID = $user->getBranch();
+$state 	  = $user->getState();
 ?>
 
 <!DOCTYPE html>
@@ -163,6 +166,7 @@ $branchID = $allTicket->getBranchID($user->getUID(), $user->getState());
 
 							<!-- hidden input -->
 							<input class="form-control" type="hidden" name="branchID" value="<?php echo $branchID ?>" readonly> <!-- how to get branchID? -->
+							<input class="form-control" type="hidden" name="state" value="<?php echo $state ?>" readonly>
 							<input class="form-control" type="hidden" name="statusID" value="IP" readonly>
 
 							<div class="col-sm-8">

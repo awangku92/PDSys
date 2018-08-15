@@ -13,8 +13,9 @@ session_start();
 //call session user
 $user = $_SESSION["user"];
 
-if ($user->getUserType() !== "D"){
+if (!isset($_SESSION["user"]) && $user->getUserType() !== "D"){
 	header("Location: /PDsys/");
+	die();
 }
 
 $allTicket = new TicketController();
@@ -35,10 +36,10 @@ $CategoryArr = $allTicket->getAllCategory();
 	<link rel="icon" href="./icon/favicon_logo.ico" type="image/x-icon">
 	<title>Dealer | View ticket</title>
 
-	<!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
-	<link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/font-awesome.min.css" rel="stylesheet"> -->
     <link href="./css/main.css" rel="stylesheet">
     <script type="text/javascript" src="./js/date_time.js"></script>
 </head>
@@ -99,22 +100,20 @@ $CategoryArr = $allTicket->getAllCategory();
 				    			<?php 
 						    		foreach ($ticketArr as $row) {
 									    //var_dump( $ticket );
-									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["BranchID"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
+									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["State"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
 									    //var_dump($row["Detail"]);
 
 									    //dealer can only view their ticket only
 									    if ($row["UID"] === $user->getUID()){
 										    //get Status from StatusID
 									    	$status = $allTicket->getStatus($row["StatusID"]);
-									    	//var_dump($status);
 
 									    	//get state info
-									    	$state = $allTicket->getState( $row["BranchID"]);
-									    	//var_dump($state);
+									    	//$state = $allTicket->getState( $row["BranchID"]);
+									    	$state = $row["StatusID"];
 
 								    		//get category info
 									    	$category = $allTicket->getCategoryType( $row["CategoryID"]);
-									    	//var_dump($category);
 
 									    	//get Contractor info in user table
 									    	$contractorInfo = $allUser->getContractor( $row["UIDContractor"]);
@@ -207,9 +206,43 @@ $CategoryArr = $allTicket->getAllCategory();
 																	<textarea class="form-control" placeholder="Please describe the issue here..." readonly><?php echo $ticket->getDetail() ?></textarea>
 																</div>
 															</div>
+															<hr>
+															<p>CONTRACTOR'S DETAILS</p><br>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="uidContractor" value="" readonly>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">FULL NAME</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="fullName" value="" readonly>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">CONTACT NO</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="contact" value="" readonly>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																<div class="col-sm-6">
+																	<div class="form-group">
+															               <div class="input-group date" >
+															                   <input type="text" class="form-control" name="appoimentDateTime" value="" />
+															                   <span class="input-group-addon" readonly>
+															                       <span class="glyphicon glyphicon-calendar"></span>
+															                   </span>
+															               </div>
+															           </div>
+																</div>
+															</div>
 														</form>
 														</div>
 														<div class="modal-footer">
+															<button type="submit" class="btn tckt-btn" value="CloseTicket" name="operation" style="display: none;">Save</button>
 															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 														</div>
 													</div>
@@ -281,9 +314,43 @@ $CategoryArr = $allTicket->getAllCategory();
 																<input class="form-control" type="time" name="">
 															</div>
 														</div>
+														<hr>
+														<p>CONTRACTOR'S DETAILS</p><br>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+															<div class="col-sm-6">
+																<input class="form-control" type="text" name="uidContractor" value="" readonly>
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">FULL NAME</label>
+															<div class="col-sm-6">
+																<input class="form-control" type="text" name="fullName" value="" readonly>
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">CONTACT NO</label>
+															<div class="col-sm-6">
+																<input class="form-control" type="text" name="contact" value="" readonly>
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+															<div class="col-sm-6">
+																<div class="form-group">
+														               <div class="input-group date" >
+														                   <input type="text" class="form-control" name="appoimentDateTime" value="" />
+														                   <span class="input-group-addon" readonly>
+														                       <span class="glyphicon glyphicon-calendar"></span>
+														                   </span>
+														               </div>
+														           </div>
+															</div>
+														</div>
 													</form>
 														</div>
 														<div class="modal-footer">
+															<button type="submit" class="btn tckt-btn" value="CloseTicket" name="operation" style="display: none;">Save</button>
 															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 														</div>
 													</div>
@@ -317,7 +384,7 @@ $CategoryArr = $allTicket->getAllCategory();
 																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID(); ?>" readonly>
 																	</div>
 																</div>
-																	<div class="form-group row">
+																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">DATE & TIME</label>
 																	<div class="col-sm-6">
 																		<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime(); ?>" readonly>
@@ -327,29 +394,64 @@ $CategoryArr = $allTicket->getAllCategory();
 																	<label class="col-sm-2 col-form-label">CATEGORY</label>
 																	<div class="col-sm-6">
 																		<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
+																	</div>
 																</div>
-																</div>
-																	<div class="form-group row">
+																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">DETAILS</label>
 																	<div class="col-sm-6">
 																		<textarea class="form-control" placeholder="Description of the issue here" readonly><?php echo $ticket->getDetail() ?></textarea>
 																	</div>
 																</div>
+																<!-- change value to be same as DB -->
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">STATUS</label>
 																	<div class="col-sm-6">
-																		<select class="form-control">
-																			<option>IN PROGRESS</option>
+																		<select class="form-control" id="statusIP">
+																			<option hidden selected>IN PROGRESS</option>
 																			<option>INCOMPLETE</option>
 																			<option>POSTPONE</option>
 																			<option>COMPLETE</option>
 																		</select>
+																	</div>
+																</div>
+																<hr>
+																<p>CONTRACTOR'S DETAILS</p><br>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="uidContractor" value="" readonly>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">FULL NAME</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="fullName" value="" readonly>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">CONTACT NO</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="contact" value="" readonly>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																	<div class="col-sm-6">
+																		<div class="form-group">
+																               <div class="input-group date" >
+																                   <input type="text" class="form-control" name="appoimentDateTime" value="" />
+																                   <span class="input-group-addon" readonly>
+																                       <span class="glyphicon glyphicon-calendar"></span>
+																                   </span>
+																               </div>
+																           </div>
+																	</div>
 																</div>
 															</form>
 														</div>
 														<div class="modal-footer">
+															<button type="submit" class="btn tckt-btn" value="CloseTicket" name="operation" style="display: none;">Save</button>
 															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-															<!-- add save button -->
 														</div>
 													</div>
 												</div>
@@ -411,9 +513,43 @@ $CategoryArr = $allTicket->getAllCategory();
 																<textarea class="form-control" placeholder="Please describe the issue here..."></textarea>
 															</div>
 														</div>
+														<hr>
+														<p>CONTRACTOR'S DETAILS</p><br>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+															<div class="col-sm-6">
+																<input class="form-control" type="text" name="uidContractor" value="" readonly>
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">FULL NAME</label>
+															<div class="col-sm-6">
+																<input class="form-control" type="text" name="fullName" value="" readonly>
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">CONTACT NO</label>
+															<div class="col-sm-6">
+																<input class="form-control" type="text" name="contact" value="" readonly>
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+															<div class="col-sm-6">
+																<div class="form-group">
+														               <div class="input-group date" >
+														                   <input type="text" class="form-control" name="appoimentDateTime" value="" />
+														                   <span class="input-group-addon" readonly>
+														                       <span class="glyphicon glyphicon-calendar"></span>
+														                   </span>
+														               </div>
+														            </div>
+															</div>
+														</div>
 													</form>
 														</div>
 														<div class="modal-footer">
+															<button type="submit" class="btn tckt-btn" value="CloseTicket" name="operation" style="display: none;">Save</button>
 															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 															<!-- save button -->
 														</div>
@@ -474,5 +610,16 @@ $CategoryArr = $allTicket->getAllCategory();
     <script src="./js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
 
+    <script type="text/javascript">
+    	// onselect unhide button
+		$(function(){
+		    $('#statusIP').change(function(){
+		       var stat = $(this).val();
+		        if(stat != 'IN PROGRESS'){
+		            $('.tckt-btn').show();
+		        }
+		    });
+		});
+    </script>
 </body>
 </html>
