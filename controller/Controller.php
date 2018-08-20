@@ -145,13 +145,13 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 
 	//get $_post
 	$TicketID 			= $_POST['ticketID'];
-	$StatusID 			= $_POST['status'];
+	$StatusID 			= $_POST['statusDone'];
 	$URL	  			= $_POST['URL'];
 	$UserID 	   		= $_POST['userID'];
 	$DateTime      		= $_POST['dateTime'];
 	$CategoryID    		= $_POST['category'];
 	$Detail  	   		= $_POST['detail']; 
-	$UIDContractor 		= $_POST['uidContractor'];
+	$UIDContractor 		= $_POST['uidContractorDone'];
 	$postponeDateTime  	= $_POST['appoimentDateTime'];
 
 	//close DONE tiket
@@ -229,14 +229,59 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$UIDContractor = $_POST['uidContractorIP'];
 	$postponeDateTime = $_POST['appoimentDateTimeIP'];
 
+	//var_dump($UIDContractor);
+
+	if ($postponeDateTime == ''){
+		$status = "error_update";
+	}else{
+		$boolTicket 	= $TicketController->updateTicketUID($TicketID, $UIDContractor);
+	}
+
 	//update ticket
     $reason 			= "";
-    $boolTicket 	= $TicketController->updateTicketUID($TicketID, $UIDContractor);
 
     if ($boolTicket){
 	    //update logtickets
 		$boolLogTicket 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
 
+		//success create and log, then return to view
+		if ($boolLogTicket){
+			//success log, no need to do anything
+			$status = "updated";
+		} else {
+			//else log failed, delete ticket n return failed
+			$status = "error_update";
+		}
+    }else{
+    	$status = "error_update";
+    }
+
+	//return to URL
+	header("Location: ".$_POST['URL']."?status=$status");
+	die();
+} else if ( strpos($operation, 'UpdateTicketStatus') !== false ){
+	//do update postpone logic here
+	require_once __DIR__ . '/TicketController.php';
+
+	$TicketController = new TicketController();
+
+	//get $_post
+	$TicketID 	   = $_POST['ticketID'];
+	$StatusID 	   = $TicketController->getStatusID($_POST['statusIP']); //get statusID from status
+	$UserID 	   = $_POST['userID'];
+	$DateTime      = $_POST['dateTime'];
+	$CategoryID    = $_POST['category'];
+	$Detail  	   = $_POST['detail']; 
+	$UIDContractor = $_POST['uidContractorIP'];
+	$postponeDateTime = $_POST['appoimentDateTimeIP'];
+
+	//update ticket
+    $boolTicket 	= $TicketController->updateTicketStatus($TicketID, $StatusID);
+
+    if ($boolTicket){
+	    //update logtickets
+	    $reason             = "";
+		$boolLogTicket 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
 		//success create and log, then return to view
 		if ($boolLogTicket){
 			//success log, no need to do anything

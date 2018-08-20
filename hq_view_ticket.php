@@ -65,34 +65,6 @@ $ticketArr = $allTicket->getAllTicket();
   				alertify.error('Close ticket failed!');
 	  		} 
 	  	});
-
-		// onselect unhide button
-		$(function(){
-		    $('#status').change(function(){
-		       var stat = $(this).val();
-		        if(stat == 'C'){
-		            $('.tckt-btn').show();
-		        }
-		    });
-		});
-
-		// onchange button
-		$(function(){
-		    $('#companyName').change(function(){
-		       var strValue = $(this).val();
-
-		       	myArray = strValue.split("/");
-			
-				// var uid 		= myArray[0];
-				// var companyname = myArray[1];
-				// var fullname 	= myArray[2];
-				// var contact 	= myArray[3];
-
-				document.getElementById("uidContractorIP").value = myArray[0];
-				document.getElementById("fullNameIP").value = myArray[2];
-				document.getElementById("contactIP").value = myArray[3];
-		    });
-		});
 	</script>
 </head>
 <body>
@@ -166,6 +138,7 @@ $ticketArr = $allTicket->getAllTicket();
 
 								    	//get Contractor info in user table
 								    	$contractorInfo = $allUser->getContractor( $row["UIDContractor"]);
+								    	$contractorUID  = $row["UIDContractor"];
 
 								    	/* associative array */
 								    	$contractor = $contractorInfo->fetch_array(MYSQLI_ASSOC);
@@ -246,9 +219,9 @@ $ticketArr = $allTicket->getAllTicket();
 																	<div class="col-sm-6">
 																<?php 
 																	if ($status !== "Close"){
-
 																?>
-																	<select class="form-control" id="status" name="status">
+																	<select class="form-control" id="statusDone-<?php echo $ticket->getTicketID(); ?>" name="statusDone">
+																	<!-- <select class="form-control" id="statusDone" name="statusDone"> -->
 																		<option hidden selected>DONE</option>
 																		<option value="C">CLOSE</option>
 																	</select>
@@ -310,13 +283,6 @@ $ticketArr = $allTicket->getAllTicket();
 																	?>
 																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
 																	<div class="col-sm-6">
-																		<!-- <script type="text/javascript">
-																			$(function() {
-																				$('#datetimepicker<?php //echo $ticket->getTicketID(); ?>').datetimepicker({
-																					format : 'YYYY-MM-DD HH:mm'
-																				});
-																			});
-																		</script> -->
 																		<div class="form-group">
 															                <div class='input-group date' id='datetimepicker<?php echo $ticket->getTicketID(); ?>'>
 															                    <input type="text" class="form-control" name="appoimentDateTime" value="<?php echo $dateTime ?>" />
@@ -329,10 +295,11 @@ $ticketArr = $allTicket->getAllTicket();
 																</div>
 																<!-- hidden input -->
 																<input class="form-control" type="hidden" name="URL" value="/PDSys/hq_view_ticket.php" readonly>
+																<input class="form-control" type="hidden" id="uidContractorDone" name="uidContractorDone" value="<?php echo $row["UIDContractor"] ?>" readonly>
 															</div>
 															<div class="modal-footer">
 																<!-- if status = close then unhide button -->
-																<button type="submit" class="btn tckt-btn" value="CloseTicket" name="operation" style="display: none;">Save</button>
+																<button type="submit" class="btn tckt-btn btn-id<?php echo $ticket->getTicketID(); ?>-done" value="CloseTicket" name="operation" style="display: none;">Save</button>
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 															</div>
 														</form>
@@ -513,14 +480,27 @@ $ticketArr = $allTicket->getAllTicket();
 																<hr>
 																<p>CONTRACTOR'S DETAILS</p><br>
 																<?php
+
+																$uidContractorIP 	= "";
+															    $companyNameIP  	= "";
+															    $fullNameIP 		= "";
+																$ContactIP 		    = "";
+
+																//check here if got contractor or not
+																//$contractorUID = $allTicket->getTicketContractor($ticket->getTicketID());
+																if ($contractorUID != 0){
+																	//$appoimentDateTime = $allTicket->getAppoimentDateTime($ticket->getTicketID());
+
+																	$uidContractorIP= $contractorUID;
+																	$companyNameIP 	= $contractor["CompanyName"];
+															    	$fullNameIP 	= $contractor["FullName"];
+																	$ContactIP 		= $contractor["Contact"];																
+																}	
+
+
 																//CHOOSE COMPANY NAME BY STATE; DO getContractorCompanyName function as dropdown
 																$company = new stdClass();
 																$companyNameArr = $allUser->getCompany($state);
-
-																$uidContractor 	= "";
-															    $CompanyName 	= "";
-															    $FullName 		= "";
-																$Contact 		= "";
 
 																if ($companyNameArr->num_rows === 0) {
 																	echo "no contractor available!";
@@ -529,8 +509,17 @@ $ticketArr = $allTicket->getAllTicket();
 																		<div class="form-group row">
 																			<label class="col-sm-2 col-form-label">COMPANY NAME</label>
 																			<div class="col-sm-6">
-																				<select class="form-control" id="companyName" name="companyName">
-																					<option hidden selected>-Assign Contractor-</option>
+																				<select class="form-control" id="companyNameIP-<?php echo $ticket->getTicketID(); ?>">
+																					<?php 
+																					// put $companyNameIP here
+																					if ($contractorUID != 0){
+																					?> 
+																						<option selected ><?php echo $companyNameIP ?></option>
+																					<?php 
+																					} else {
+																					//}
+																					 ?>
+																						<option hidden selected>-Assign Contractor-</option>
 		 																			<?php 
 																					    //get companyName by state then loop the option
 		 																				for ($i = 0; $i < $companyNameArr->num_rows; $i++){
@@ -545,6 +534,7 @@ $ticketArr = $allTicket->getAllTicket();
 																								<option value="<?php echo $uidC.'/'.$CN.'/'.$FN.'/'.$C ?>"><?php echo $CN ?></option>
 																							<?php
 																						}
+																					}
 																					?>
 																				</select>
 																			</div>
@@ -557,19 +547,19 @@ $ticketArr = $allTicket->getAllTicket();
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">CONTRACTOR ID</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" id="uidContractorIP" name="uidContractorIP" value="" readonly>
+																		<input class="form-control" type="text" id="uidContractorIP<?php echo $ticket->getTicketID(); ?>" name="uidContractorIP" value="<?php echo $uidContractorIP ?>" readonly>
 																	</div>
 																</div>
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">FULL NAME</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" id="fullNameIP" name="fullNameIP" value="" readonly>
+																		<input class="form-control" type="text" id="fullNameIP<?php echo $ticket->getTicketID(); ?>" name="fullNameIP" value="<?php echo $fullNameIP ?>" readonly>
 																	</div>
 																</div>
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">CONTACT NO</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" id="contactIP" name="contactIP" value="" readonly>
+																		<input class="form-control" type="text" id="contactIP<?php echo $ticket->getTicketID(); ?>" name="contactIP" value="<?php echo $ContactIP ?>" readonly>
 																	</div>
 																</div>
 																<div class="form-group row">
@@ -588,12 +578,6 @@ $ticketArr = $allTicket->getAllTicket();
 																		}else{
 																			?>
 																			<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																				<!-- <div class="col-sm-6">
-																					<input class="form-control" type="date" name="appoimentDate" value="<?php //echo $date ?>">
-																				</div>
-																				<div class="col-sm-6">
-																					<input class="form-control" type="time" name="appoimentTime" value="<?php //echo $time ?>">
-																				</div> -->
 																				<div class="col-sm-6">
 																					<script type="text/javascript">
 																						$(function() {
@@ -604,7 +588,7 @@ $ticketArr = $allTicket->getAllTicket();
 																					</script>
 																					<div class="form-group">
 																		                <div class='input-group date' id='datetimepicker<?php echo $ticket->getTicketID(); ?>'>
-																		                    <input type='text' class="form-control" name="appoimentDateTimeIP" value="<?php //echo $dateTime ?>" />
+																		                    <input type='text' class="form-control" name="appoimentDateTimeIP" value="<?php echo $dateTime ?>" />
 																		                    <span class="input-group-addon">
 																		                        <span class="glyphicon glyphicon-calendar"></span>
 																		                    </span>
@@ -619,7 +603,7 @@ $ticketArr = $allTicket->getAllTicket();
 																<input class="form-control" type="hidden" name="URL" value="/PDSys/hq_view_ticket.php" readonly>
 															</div>
 															<div class="modal-footer">
-																<button type="submit" class="btn tckt-btn" value="UpdateInprogressTicket" name="operation">Save</button>
+																<button type="submit" class="btn tckt-btn btn-id<?php echo $ticket->getTicketID(); ?>-ip" value="UpdateInprogressTicket" name="operation" style="display: none;">Save</button>
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 															</div>
 														</form>
@@ -792,6 +776,46 @@ $ticketArr = $allTicket->getAllTicket();
 	<footer>
 		<p><i class="fa fa-copyright"></i> Copyright Reserved Petronas Trading @ 2018. Best viewed using Google Chrome's web browser.</p>
 	</footer>
+	<script type="text/javascript">
+		var selects = document.querySelectorAll('select');
 
+		for (var i=0; i<selects.length; ++i) {
+			selects[i].addEventListener('click', clickFunc);
+		}
+
+		function clickFunc() {
+			//cont here... this is for unhide button save.. then maybe set value to hidden field to sent to controller
+		  	var id = this.id.replace("statusDone-","").replace("companyNameIP-","");
+		  	var field = this.id.split("-")[0]; 
+
+		  	switch(field){
+		  		case "statusDone":
+				  	//this is for status dropdown
+				  	// onselect unhide button
+				    $('#'+this.id).change(function(){
+				       	var stat = $(this).val();
+				        if(stat == 'C'){
+				            $('.btn-id'+id+'-done').show();
+				            //$('.statusIP').val(stat); //put value into hidden field to sent to controller
+				        }
+				    });
+		  		break;
+		  		case "companyNameIP":
+				  	//this is for contractor dropdown
+				  	// onselect unhide button
+			  		$('#'+this.id).change(function(){
+						var strValue = $(this).val();
+				       	myArray = strValue.split("/");
+
+				       	document.getElementById("uidContractorIP"+id).value = myArray[0];
+						document.getElementById("fullNameIP"+id).value = myArray[2];
+						document.getElementById("contactIP"+id).value = myArray[3];
+
+						$('.btn-id'+id+'-ip').show();
+				    });
+		  		break;
+		  	}
+		}
+    </script>
 </body>
 </html>

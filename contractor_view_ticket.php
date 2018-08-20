@@ -123,6 +123,10 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 										$region = $allRegion->getRegion($state);
 										//var_dump($region);
 
+										//get $postponeDateTime
+										$dateTime = $allTicket->getAppoimentDateTime($ticket->getTicketID());
+										//var_dump($dateTime);
+
 								    	//case for status
 									    switch ($status) {
 									        case "Done":
@@ -223,7 +227,7 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
 																		<div class="col-sm-6">
 																			<!-- get from logtickets["PostponeDateTime"] -->
-																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																			<input class="form-control" type="text" name="" value="<?php echo $dateTime ?>" readonly>
 																		</div>
 																	</div>
 																</form>
@@ -302,7 +306,7 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
 																		<div class="col-sm-6">
 																			<!-- KIV -->
-																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																			<input class="form-control" type="text" name="" value="<?php echo $dateTime ?>" readonly>
 																		</div>
 																	</div>
 																</form>
@@ -381,7 +385,7 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
 																		<div class="col-sm-6">
 																			<!-- KIV, dont know format -->
-																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																			<input class="form-control" type="text" name="" value="<?php echo $dateTime ?>" readonly>
 																		</div>
 																	</div>
 																</form>
@@ -460,7 +464,7 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 																		<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
 																		<div class="col-sm-6">
 																			<!-- KIV, dont know format -->
-																			<input class="form-control" type="text" name="" value="19 April 2018, 17:00:16" readonly>
+																			<input class="form-control" type="text" name="" value="<?php echo $dateTime ?>" readonly>
 																		</div>
 																	</div>
 																</form>
@@ -478,27 +482,6 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 							    		}
 									}
 							    ?>
-
-							<!-- <tr id="incomplete" data-toggle="modal" data-target="#modal-incomplete">
-						        <td>PTRNS0258</td>
-						        <td>25 Jan 2018, 22:04:15</td>
-						        <td>INCOMPLETE</td>
-						      </tr>
-						      <tr id="done" data-toggle="modal" data-target="#modal-done">
-						        <td>PTRNS0259</td>
-						        <td>04 Apr 2018, 15:46:35</td>
-						        <td>DONE</td>
-						      </tr>
-						      <tr id="postpone" data-toggle="modal" data-target="#modal-postpone">
-						        <td>PTRNS0260</td>
-						        <td>19 Apr 2018, 07:32:47</td>
-						        <td>POSTPONE</td>
-						      </tr>
-						      <tr id="inprogress" data-toggle="modal" data-target="#modal-inprogress">
-						        <td>PTRNS0260</td>
-						        <td>19 Apr 2018, 07:32:47</td>
-						        <td>IN PROGRESS</td>
-						      </tr> -->
 						    </tbody>
 						</table>
 					</div>

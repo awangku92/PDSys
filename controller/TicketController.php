@@ -10,7 +10,7 @@ class TicketController {
 
         $conn = $db->connect();
 
-        $sql  = "SELECT * FROM ticket ORDER BY StatusID DESC";
+        $sql  = "SELECT * FROM ticket ORDER BY StatusID DESC, TicketID DESC";
 
         $stmt = $conn->prepare($sql);
         //$stmt->bind_param("ss", $email, $password);
@@ -32,7 +32,7 @@ class TicketController {
 
         $conn = $db->connect();
 
-        $sql  = "SELECT * FROM ticket WHERE UIDContractor = ?";
+        $sql  = "SELECT * FROM ticket WHERE UIDContractor = ? ORDER BY StatusID DESC, TicketID DESC";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $UIDContractor);
@@ -327,29 +327,78 @@ class TicketController {
         }
     }
 
-    public function getTicketContractor($contractorID){        
+    // public function getTicketContractor($contractorID){        
  
-        $sql = "SELECT UID, FullName, Contact FROM user WHERE UID = ?";
+    //     $sql = "SELECT UID, FullName, Contact FROM user WHERE UID = ?";
+
+    //     $db = new db();
+    //     $conn = $db->connect();
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->bind_param("i",$contractorID);
+
+    //     $stmt->execute();
+
+    //     $stmt->bind_result($UID, $FullName, $Contact);
+
+    //     $result = array();
+
+    //     if($stmt->fetch()) {
+    //         $result = array('UID'=>$UID, 'FullName'=>$FullName, 'Contact'=>$Contact);
+    //     }
+
+    //     $stmt->close();
+    //     $conn->close();
+
+    //     return $result;
+    // }
+
+    public function getTicketContractor($ticketID){
+        $sql = "SELECT UIDContractor FROM ticket WHERE TicketID = ?";
 
         $db = new db();
         $conn = $db->connect();
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i",$contractorID);
+        $stmt->bind_param("s",$ticketID);
 
         $stmt->execute();
 
-        $stmt->bind_result($UID, $FullName, $Contact);
+        $stmt->bind_result($UIDContractor);
 
-        $result = array();
+        //$result = array();
 
         if($stmt->fetch()) {
-            $result = array('UID'=>$UID, 'FullName'=>$FullName, 'Contact'=>$Contact);
+            //$result = array('UIDContractor'=>$UIDContractor);
         }
 
         $stmt->close();
         $conn->close();
 
-        return $result;
+        return $UIDContractor;
+    }
+
+    public function updateTicketStatus($ticketID, $statusID) {
+        $sql = "";
+        $db = new db();
+
+        $conn = $db->connect();
+
+        //update UID
+        $sql = "UPDATE ticket SET StatusID = ? WHERE TicketID = ?";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bind_param("ss", $statusID, $ticketID);
+
+        $result = $stmt->execute();
+
+        $stmt->close();
+        $conn->close();
+
+        if ($result){
+            return True;
+        }else{
+            return False;
+        }
     }
 
     // public function getCategoryID ($categoryType){
