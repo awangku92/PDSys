@@ -190,15 +190,19 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$TicketID 	   = $_POST['ticketID'];
 	$UserID 	   = $_POST['userID'];
 	$DateTime      = $_POST['dateTime'];
-	$CategoryID    = $_POST['category'];
 	$Detail  	   = $_POST['detail']; 
-	$StatusID 	   = $TicketController->getStatusID($_POST['status']); //get statusID from status
+	$StatusID 	   = "P";
 	$UIDContractor = $_POST['uidContractor'];
-	$postponeDateTime  = $_POST['appoimentDateTime'];
+	$postponeDateTime = $_POST['postponeDateTime'];
 
 	//update ticket
     $reason 			= "";
-	$boolLogTickets 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+
+    if ($postponeDateTime == '' ){
+		$status = "error_update";
+	}else{
+		$boolLogTickets 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+	}
 
 	//success create and log, then return to view
 	if ($boolLogTickets){
@@ -310,8 +314,8 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$CategoryID    = $_POST['category'];
 	$Detail  	   = $_POST['detail']; 
 	//$StatusID 	   = $TicketController->getStatusID($_POST['status']); //get statusID from status
-	$UIDContractor = $_POST['uidContractorIC'];
-	$PostponeDateTime = $_POST['postponeDateTimeIC'];
+	$UIDContractor = $_POST['uidContractor'];
+	$PostponeDateTime = $_POST['postponeDateTime'];
 	$IncompleteReason = $_POST['incompleteReason'];
 	$StatusID  		  = 'IC';
 
@@ -335,7 +339,7 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	//return to URL
 	header("Location: ".$_POST['URL']."?status=$status");
 	die();
-} else if ( strpos($operation, 'doneIncompleteTicket') !== false ){
+} else if ( strpos($operation, 'DoneTicket') !== false ){
 	//do update postpone logic here
 	require_once __DIR__ . '/TicketController.php';
 
@@ -348,8 +352,8 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$DateTime      = $_POST['dateTime'];
 	$CategoryID    = $_POST['category'];
 	$Detail  	   = $_POST['detail']; 
-	$UIDContractor = $_POST['uidContractorIC'];
-	$postponeDateTime = $_POST['postponeDateTimeIC'];
+	$UIDContractor = $_POST['uidContractor'];
+	$postponeDateTime = $_POST['postponeDateTime'];
 	$reason = $_POST['incompleteReason'];
 
 
@@ -375,5 +379,6 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	header("Location: ".$_POST['URL']."?status=$status");
 	die();
 }
+
 
 ?>

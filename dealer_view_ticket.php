@@ -339,7 +339,7 @@ $CategoryArr = $allTicket->getAllCategory();
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">DETAILS</label>
 																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Please describe the issue here..." name="detail"><?php echo $ticket->getDetail() ?></textarea>
+																		<textarea class="form-control" placeholder="Please describe the issue here..." name="detail" readonly><?php echo $ticket->getDetail() ?></textarea>
 																	</div>
 																</div>
 																<hr>
@@ -374,7 +374,7 @@ $CategoryArr = $allTicket->getAllCategory();
 																			</script>
 																			<div class="form-group">
 																                <div class='input-group date' id='datetimepickerIC<?php echo $ticket->getTicketID(); ?>'>
-																                    <input type='text' class="form-control" name="postponeDateTimeIC" value="<?php echo $postponeDateTimeIC ?>" />
+																                    <input type='text' class="form-control" name="postponeDateTime" value="<?php echo $postponeDateTimeIC ?>" />
 																                    <span class="input-group-addon">
 																                        <span class="glyphicon glyphicon-calendar"></span>
 																                    </span>
@@ -387,7 +387,7 @@ $CategoryArr = $allTicket->getAllCategory();
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">COMPANY NAME</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="uidContractor" value="<?php echo $CompanyName ?>" readonly>
+																		<input class="form-control" type="text" name="companyName" value="<?php echo $CompanyName ?>" readonly>
 																	</div>
 																</div>
 																<div class="form-group row">
@@ -405,11 +405,11 @@ $CategoryArr = $allTicket->getAllCategory();
 
 																<!-- hidden input -->
 																<input class="form-control" type="hidden" name="URL" value="/PDSys/dealer_view_ticket.php" readonly>
-																<input class="form-control" type="hidden" id="uidContractorIC" name="uidContractorIC" value="<?php echo $row["UIDContractor"] ?>" readonly>
+																<input class="form-control" type="hidden" id="uidContractor" name="uidContractor" value="<?php echo $row["UIDContractor"] ?>" readonly>
 															</div>
 															<div class="modal-footer">
 																<?php if( !empty($incompleteReason) ){?>
-																	<button type="submit" class="btn tckt-btn" value="doneIncompleteTicket" name="operation" style="float: left; margin-left: 0px">Done</button>
+																	<button type="submit" class="btn tckt-btn" value="DoneTicket" name="operation" style="float: left; margin-left: 0px">Done</button>
 																<?php } ?>
 																<button type="submit" class="btn tckt-btn" value="UpdateIncompleteTicket" name="operation">Save</button>
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -541,103 +541,114 @@ $CategoryArr = $allTicket->getAllCategory();
 								           	//put html modal here ?>
 								           	<!-- Modal postpone-->
 											<div class="modal fade" id="modal-postpone<?php echo $ticket->getTicketID(); ?>" role="dialog">
-												<div class="modal-dialog">
-													<!-- Modal content-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">TICKET'S DETAILS</h4>
-														</div>
-														<div class="modal-body">
-															<form>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">ID TICKET</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID(); ?>" readonly>
+												<form method="post" action="controller/Controller.php" autocomplete="off">
+													<div class="modal-dialog">
+														<!-- Modal content-->
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h4 class="modal-title">TICKET'S DETAILS</h4>
 															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">USER ID</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID(); ?>" readonly>
+															<div class="modal-body">
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">ID TICKET</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="ticketID" value="<?php echo $ticket->getTicketID(); ?>" readonly>
+																</div>
 															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">DATE & TIME</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime(); ?>" readonly>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">USER ID</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="userID" value="<?php echo $ticket->getUID(); ?>" readonly>
+																</div>
 															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">CATEGORY</label>
-															<div class="col-sm-6">
-																<select class="form-control" id="category" name="category">
-																	<option hidden selected>-Please select-</option>
-																	<!-- get category then loop the option -->
-																	<?php 
-																		foreach ($CategoryArr as $cRow) {
-																			$category = new category($cRow["CategoryID"], $cRow["CategoryType"], $cRow["Priority"]);
-																			?>
-																				<option value="<?php echo $category->getCategoryID() ?>"><?php echo $category->getCategoryType() ?></option>
-																			<?php
-																		}
-																	?>	
-																</select>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">DATE & TIME</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="dateTime" value="<?php echo $ticket->getDateTime(); ?>" readonly>
+																</div>
 															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">DETAILS</label>
-															<div class="col-sm-6">
-																<textarea class="form-control" placeholder="Please describe the issue here..."></textarea>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">DETAILS</label>
+																<div class="col-sm-6">
+																	<textarea class="form-control" name="detail" placeholder="Please describe the issue here..." readonly><?php echo $ticket->getDetail() ?></textarea>
+																</div>
 															</div>
-														</div>
-														<hr>
-														<p>CONTRACTOR'S DETAILS</p><br>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">COMPANY NAME</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="uidContractor" value="" readonly>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">FULL NAME</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="fullName" value="" readonly>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">CONTACT NO</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="contact" value="" readonly>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-															<div class="col-sm-6">
-																<div class="form-group">
-														               <div class="input-group date" >
-														                   <input type="text" class="form-control" name="appoimentDateTime" value="" />
-														                   <span class="input-group-addon" readonly>
-														                       <span class="glyphicon glyphicon-calendar"></span>
-														                   </span>
-														               </div>
+															<hr>
+															<p>POSTPONE DATE</p><br>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">NEXT APPOINMENT DATE & TIME</label>
+																<div class="col-sm-6">
+																	<script type="text/javascript">
+																		$(function() {
+																			$('#datetimepickerC<?php echo $ticket->getTicketID(); ?>').datetimepicker({
+																				format : 'YYYY-MM-DD HH:mm'
+																			});
+																		});
+																	</script>
+																	<div class="form-group">
+														                <div class='input-group date' id='datetimepickerC<?php echo $ticket->getTicketID(); ?>'>
+														                    <input type='text' class="form-control" name="postponeDateTime" value="" />
+														                    <span class="input-group-addon">
+														                        <span class="glyphicon glyphicon-calendar"></span>
+														                    </span>
+														                </div>
 														            </div>
+																</div>
+															</div>
+															<hr>
+															<p>CONTRACTOR'S DETAILS</p><br>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="companyName" value="<?php echo $CompanyName ?>" readonly>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">FULL NAME</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="fullName" value="<?php echo $FullName ?>" readonly>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">CONTACT NO</label>
+																<div class="col-sm-6">
+																	<input class="form-control" type="text" name="contact" value="<?php echo $Contact ?>" readonly>
+																</div>
+															</div>
+															<div class="form-group row">
+																<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																<div class="col-sm-6">
+																	<div class="form-group">
+															               <div class="input-group date" >
+															                   <input type="text" class="form-control" name="appoimentDateTime" value="<?php echo $appoimentDateTime ?>" />
+															                   <span class="input-group-addon" readonly>
+															                       <span class="glyphicon glyphicon-calendar"></span>
+															                   </span>
+															               </div>
+															            </div>
+																</div>
+															</div>
+
+															<!-- hidden input -->
+															<input class="form-control" type="hidden" name="URL" value="/PDSys/dealer_view_ticket.php" readonly>
+															<input class="form-control" type="hidden" id="uidContractor" name="uidContractor" value="<?php echo $row["UIDContractor"] ?>" readonly>
+
+															</div>
+															<div class="modal-footer">
+																<button type="submit" class="btn tckt-btn" value="DoneTicket" name="operation" style="float: left; margin-left: 0px">Done</button>
+																<button type="submit" class="btn tckt-btn" value="UpdatePostponeTicket" name="operation">Save</button>
+																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+																<!-- save button -->
 															</div>
 														</div>
 													</form>
-														</div>
-														<div class="modal-footer">
-															<button type="submit" class="btn tckt-btn" value="CloseTicket" name="operation" style="display: none;">Save</button>
-															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-															<!-- save button -->
-														</div>
-													</div>
 												</div>
 											</div>
 
 								            <?php
 								            break;
-								    }
+								    	}
 									}
 								}
 							    ?>

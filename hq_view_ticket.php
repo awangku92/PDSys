@@ -423,19 +423,6 @@ $ticketArr = $allTicket->getAllTicket();
 																		<input class="form-control" type="text" name="" value="<?php echo $Contact ?>" readonly>
 																	</div>
 																</div>
-<!-- 																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																	<div class="col-sm-6">
-																		<div class="form-group">
-															                <div class='input-group date' id='datetimepickerIC<?php echo $ticket->getTicketID(); ?>'>
-															                    <input type='text' class="form-control" name="postponeDateTimeIC" value="<?php echo $dateTime ?>" />
-															                    <span class="input-group-addon">
-															                        <span class="glyphicon glyphicon-calendar"></span>
-															                    </span>
-															                </div>
-															            </div>
-																	</div>
-																</div> -->
 															</form>
 														</div>
 														<div class="modal-footer">
@@ -734,16 +721,16 @@ $ticketArr = $allTicket->getAllTicket();
 																		<input class="form-control" type="date" name="appoimentDate" value="<?php //echo $date ?>">
 																	</div> -->
 																	<div class="col-sm-6">
-																		<script type="text/javascript">
+<!-- 																		<script type="text/javascript">
 																			$(function() {
 																				$('#datetimepicker<?php echo $ticket->getTicketID(); ?>').datetimepicker({
 																					format : 'YYYY-MM-DD HH:mm'
 																				});
 																			});
-																		</script>
+																		</script> -->
 																		<div class="form-group">
 															                <div class='input-group date' id='datetimepicker<?php echo $ticket->getTicketID(); ?>'>
-															                    <input type='text' class="form-control" name="appoimentDateTime" value="<?php //echo $dateTime ?>" />
+															                    <input type='text' class="form-control" name="appoimentDateTime" value="<?php echo $dateTime ?>" />
 															                    <span class="input-group-addon">
 															                        <span class="glyphicon glyphicon-calendar"></span>
 															                    </span>
@@ -755,7 +742,7 @@ $ticketArr = $allTicket->getAllTicket();
 																<input class="form-control" type="hidden" name="URL" value="/PDSys/hq_view_ticket.php" readonly>
 															</div>
 															<div class="modal-footer">
-																<button type="submit" class="btn tckt-btn" value="UpdatePostponeTicket" name="operation">Save</button>
+																<!-- <button type="submit" class="btn tckt-btn" value="UpdatePostponeTicket" name="operation">Save</button> -->
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 															</div>
 														</form>
