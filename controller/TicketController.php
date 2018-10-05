@@ -401,37 +401,40 @@ class TicketController {
         }
     }
 
-    // public function getCategoryID ($categoryType){
-    //     $db = new db();
+    
+    public function getIncompleteReason($ticketID){
+        $db = new db();
 
-    //     $conn = $db->connect();
+        $conn = $db->connect();
 
-    //     $sql  = "SELECT CategoryID FROM category WHERE CategoryType = ?";
+        $sql  = "SELECT Reason FROM logtickets WHERE StatusID = 'IC' AND TicketID = ? ";
 
-    //     $stmt = $conn->prepare($sql);
-    //     $stmt->bind_param("s", $categoryType);
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $ticketID);
 
-    //     /* execute query */
-    //     $stmt->execute();       
+        /* execute query */
+        $stmt->execute();       
 
-    //     /* Store the result (to get properties) */
-    //     $stmt->store_result();
+        /* Store the result (to get properties) */
+        $stmt->store_result();
 
-    //     /* Bind the result to variables */
-    //     $stmt->bind_result($CategoryID);
+        /* Bind the result to variables */
+        $stmt->bind_result($Reason);
+        //var_dump($Reason);
 
-    //     while ($stmt->fetch()){
-    //         //var_dump($StatusDetail);
-    //     }
+        while ( $stmt->fetch() ){
+            //var_dump($Reason);
+        }
 
-    //     /* free results */
-    //     $stmt->free_result();
+        /* free results */
+        $stmt->free_result();
 
-    //     $stmt->close();
-    //     $conn->close();
+        $stmt->close();
+        $conn->close();
 
-    //     return $CategoryID;
-    // }
+        return $Reason;
+    }
+
 }
 
 ?>

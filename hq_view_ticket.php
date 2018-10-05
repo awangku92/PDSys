@@ -146,6 +146,8 @@ $ticketArr = $allTicket->getAllTicket();
 								    	$FullName = $contractor["FullName"];
 										$Contact = $contractor["Contact"];
 
+										//$appoimentDateTime = $allTicket->getAppoimentDateTime($ticket->getTicketID());
+
 								    	//case for status
 									    switch ($status) {
 									        case "Done":
@@ -365,23 +367,42 @@ $ticketArr = $allTicket->getAllTicket();
 																		</textarea>
 																	</div>
 																</div>
-																<hr>
-																<p>INCOMPLETE REASON</p><br>
+																
+																<?php
+
+																$dateTime = $allTicket->getAppoimentDateTime($ticket->getTicketID());
+
+																$postponeDateTimeIC	= $allTicket->getAppoimentDateTime($ticket->getTicketID()); //get postponeDateTimeIC
+																$incompleteReason  	= $allTicket->getIncompleteReason($ticket->getTicketID());
+
+															    if(!empty($incompleteReason)){
+															    ?>
+															    <hr>
+															    <p>INCOMPLETE REASON</p><br>
+
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">REASON</label>
 																	<div class="col-sm-6">
-																		<textarea class="form-control" placeholder="Describe the reason here" readonly></textarea>
+																		<textarea class="form-control" placeholder="Describe the reason here" readonly><?php echo $incompleteReason ?></textarea>
 																	</div>
 																</div>
 																<div class="form-group row">
-																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
+																	<label class="col-sm-2 col-form-label">NEXT APPOINMENT DATE & TIME</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="date" name="" readonly>
-																	</div>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="time" name="" readonly>
+																		<div class="form-group">
+															                <div class='input-group date' id='datetimepickerIC<?php echo $ticket->getTicketID(); ?>'>
+															                    <input type='text' class="form-control" name="postponeDateTimeIC" value="<?php echo $postponeDateTimeIC ?>" />
+															                    <span class="input-group-addon">
+															                        <span class="glyphicon glyphicon-calendar"></span>
+															                    </span>
+															                </div>
+															            </div>
 																	</div>
 																</div>
+
+															    <?php
+															    }
+															    ?>
 																<hr>
 																<p>CONTRACTOR'S DETAILS</p><br>
 																<div class="form-group row">
@@ -402,15 +423,19 @@ $ticketArr = $allTicket->getAllTicket();
 																		<input class="form-control" type="text" name="" value="<?php echo $Contact ?>" readonly>
 																	</div>
 																</div>
-																<div class="form-group row">
+<!-- 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="date" name="" readonly>
+																		<div class="form-group">
+															                <div class='input-group date' id='datetimepickerIC<?php echo $ticket->getTicketID(); ?>'>
+															                    <input type='text' class="form-control" name="postponeDateTimeIC" value="<?php echo $dateTime ?>" />
+															                    <span class="input-group-addon">
+															                        <span class="glyphicon glyphicon-calendar"></span>
+															                    </span>
+															                </div>
+															            </div>
 																	</div>
-																	<div class="col-sm-6">
-																		<input class="form-control" type="time" name="" readonly>
-																	</div>
-																</div>
+																</div> -->
 															</form>
 														</div>
 														<div class="modal-footer">

@@ -36,26 +36,43 @@ $CategoryArr = $allTicket->getAllCategory();
 	<link rel="icon" href="./icon/favicon_logo.ico" type="image/x-icon">
 	<title>Dealer | View ticket</title>
 
+    <!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css"/>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!-- <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/font-awesome.min.css" rel="stylesheet"> -->
     <link href="./css/main.css" rel="stylesheet">
-    <script type="text/javascript" src="./js/date_time.js"></script>
 
     <!-- FOR DATETIME PICKER -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./js/date_time.js"></script>
+    <script src="./js/main.js"></script>
 
     <!-- FOR DATETIME PICKER -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
 
-	<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./js/date_time.js"></script>
-    <script src="./js/main.js"></script>
+	<script type="text/javascript">
+	    var urlParams = new URLSearchParams(window.location.search);
+	    $(function() {
+	  		//(urlParams.get('status') === "error") ? alertify.error('Invalid account') : alertify.success('Register success'); //alert('Invalid account'); 
+	  		if (urlParams.get('status') === "updated"){
+	  			alertify.success('Ticket Updated!');
+	  		} else if (urlParams.get('status') === "close_ticket_success"){
+  				alertify.success('Ticket Closed!');
+	  		} else if (urlParams.get('status') === "error_update"){
+  				alertify.error('Update failed!');
+	  		} else if (urlParams.get('status') === "close_ticket_failed"){
+  				alertify.error('Close ticket failed!');
+	  		} else if (urlParams.get('status') === "log_ticket_failed"){
+  				alertify.error('Close ticket failed!');
+	  		} 
+	  	});
+	</script>
 
 </head>
 <body>
@@ -114,7 +131,7 @@ $CategoryArr = $allTicket->getAllCategory();
 
 				    			<?php 
 						    		foreach ($ticketArr as $row) {
-									    //var_dump( $ticket );
+									    //var_dump( $row );
 									    $ticket = new ticket($row["UID"], $row["TicketID"], $row["SearchID"], $row["DateTime"], $row["State"], $row["CategoryID"], $row["StatusID"], $row["Detail"], $row["UIDContractor"]);
 									    //var_dump($row["Detail"]);
 
@@ -122,6 +139,7 @@ $CategoryArr = $allTicket->getAllCategory();
 									    if ($row["UID"] === $user->getUID()){
 										    //get Status from StatusID
 									    	$status = $allTicket->getStatus($row["StatusID"]);
+									    	//var_dump($status);
 
 									    	//get state info
 									    	//$state = $allTicket->getState( $row["BranchID"]);
@@ -284,107 +302,121 @@ $CategoryArr = $allTicket->getAllCategory();
 											<div class="modal fade" id="modal-incomplete<?php echo $ticket->getTicketID(); ?>" role="dialog">
 												<div class="modal-dialog">
 													<!-- Modal content-->
-													<div class="modal-content">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal">&times;</button>
-															<h4 class="modal-title">TICKET'S DETAILS</h4>
-														</div>
-														<div class="modal-body">
-															<form>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">ID TICKET</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $ticket->getTicketID(); ?>" readonly>
+													<form method="post" action="controller/Controller.php" autocomplete="off">
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal">&times;</button>
+																<h4 class="modal-title">TICKET'S DETAILS</h4>
+															</div>
+															<div class="modal-body">
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">ID TICKET</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="ticketID" value="<?php echo $ticket->getTicketID(); ?>" readonly>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">USER ID</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="userID" value="<?php echo $ticket->getUID(); ?>" readonly>
+																	</div>
+																</div>
+																	<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">DATE & TIME</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="dateTime" value="<?php echo $ticket->getDateTime(); ?>" readonly>
+																	</div>
+																</div>
+																	<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">CATEGORY</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="category" value="<?php echo $category ?>" readonly>
+																		<!-- <select class="form-control">
+																			<option></option>
+																		</select> -->
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">DETAILS</label>
+																	<div class="col-sm-6">
+																		<textarea class="form-control" placeholder="Please describe the issue here..." name="detail"><?php echo $ticket->getDetail() ?></textarea>
+																	</div>
+																</div>
+																<hr>
+																<p>INCOMPLETE REASON</p><br>
+																<!-- check for logticket -->
+																<?php 
+
+																$postponeDateTimeIC	= $allTicket->getAppoimentDateTime($ticket->getTicketID()); //get postponeDateTimeIC
+															    $incompleteReason  	= $allTicket->getIncompleteReason($ticket->getTicketID());
+
+															    if(empty($incompleteReason)){
+															    	$incompleteReason = "";
+															    	$postponeDateTimeIC = "";
+															    }
+
+																?>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">REASON</label>
+																	<div class="col-sm-6">
+																		<textarea class="form-control" placeholder="Describe the reason here" name="incompleteReason"><?php echo $incompleteReason ?></textarea>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">NEXT APPOINMENT DATE & TIME</label>
+																		<div class="col-sm-6">
+																			<script type="text/javascript">
+																				$(function() {
+																					$('#datetimepickerIC<?php echo $ticket->getTicketID(); ?>').datetimepicker({
+																						format : 'YYYY-MM-DD HH:mm'
+																					});
+																				});
+																			</script>
+																			<div class="form-group">
+																                <div class='input-group date' id='datetimepickerIC<?php echo $ticket->getTicketID(); ?>'>
+																                    <input type='text' class="form-control" name="postponeDateTimeIC" value="<?php echo $postponeDateTimeIC ?>" />
+																                    <span class="input-group-addon">
+																                        <span class="glyphicon glyphicon-calendar"></span>
+																                    </span>
+																                </div>
+																            </div>
+																		</div>
+																</div>
+																<hr>
+																<p>CONTRACTOR'S DETAILS</p><br>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="uidContractor" value="<?php echo $CompanyName ?>" readonly>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">FULL NAME</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="fullName" value="<?php echo $FullName ?>" readonly>
+																	</div>
+																</div>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">CONTACT NO</label>
+																	<div class="col-sm-6">
+																		<input class="form-control" type="text" name="contact" value="<?php echo $Contact ?>" readonly>
+																	</div>
+																</div>
+
+																<!-- hidden input -->
+																<input class="form-control" type="hidden" name="URL" value="/PDSys/dealer_view_ticket.php" readonly>
+																<input class="form-control" type="hidden" id="uidContractorIC" name="uidContractorIC" value="<?php echo $row["UIDContractor"] ?>" readonly>
+															</div>
+															<div class="modal-footer">
+																<?php if( !empty($incompleteReason) ){?>
+																	<button type="submit" class="btn tckt-btn" value="doneIncompleteTicket" name="operation" style="float: left; margin-left: 0px">Done</button>
+																<?php } ?>
+																<button type="submit" class="btn tckt-btn" value="UpdateIncompleteTicket" name="operation">Save</button>
+																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 															</div>
 														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">USER ID</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $ticket->getUID(); ?>" readonly>
-															</div>
-														</div>
-															<div class="form-group row">
-															<label class="col-sm-2 col-form-label">DATE & TIME</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $ticket->getDateTime(); ?>" readonly>
-															</div>
-														</div>
-															<div class="form-group row">
-															<label class="col-sm-2 col-form-label">CATEGORY</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="" value="<?php echo $category ?>" readonly>
-																<!-- <select class="form-control">
-																	<option></option>
-																</select> -->
-															</div>
-														</div>
-															<div class="form-group row">
-															<label class="col-sm-2 col-form-label">DETAILS</label>
-															<div class="col-sm-6">
-																<textarea class="form-control" placeholder="Please describe the issue here..."><?php echo $ticket->getDetail() ?></textarea>
-															</div>
-														</div>
-														<hr>
-														<p>INCOMPLETE REASON</p><br>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">REASON</label>
-															<div class="col-sm-6">
-																<textarea class="form-control" placeholder="Describe the reason here"></textarea>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">NEXT APPOINMENT DATE & TIME</label>
-															<div class="col-sm-6">
-																<div class="form-group">
-													               <div class="input-group date" id='datetimepickerIC<?php echo $ticket->getTicketID(); ?>'>
-													                   <input type="text" class="form-control" name="postponeDateTimeIC" value="" />
-													                   <span class="input-group-addon">
-													                       <span class="glyphicon glyphicon-calendar"></span>
-													                   </span>
-													               </div>
-														        </div>
-															</div>
-														</div>
-														<hr>
-														<p>CONTRACTOR'S DETAILS</p><br>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">COMPANY NAME</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="uidContractor" value="<?php echo $CompanyName ?>" readonly>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">FULL NAME</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="fullName" value="<?php echo $FullName ?>" readonly>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">CONTACT NO</label>
-															<div class="col-sm-6">
-																<input class="form-control" type="text" name="contact" value="<?php echo $Contact ?>" readonly>
-															</div>
-														</div>
-														<div class="form-group row">
-															<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-															<div class="col-sm-6">
-																<div class="form-group">
-													               <div class="input-group date" >
-													                   <input type="text" class="form-control" name="appoimentDateTime" value="<?php echo $appoimentDateTime ?>" />
-													                   <span class="input-group-addon" readonly>
-													                       <span class="glyphicon glyphicon-calendar"></span>
-													                   </span>
-													               </div>
-														        </div>
-															</div>
-														</div>
+
 													</form>
-														</div>
-														<div class="modal-footer">
-															<button type="submit" class="btn tckt-btn" value="" name="operation" style="display: none;">Save</button>
-															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-														</div>
-													</div>
 												</div>
 											</div>
 
@@ -649,13 +681,6 @@ $CategoryArr = $allTicket->getAllCategory();
 		<p><i class="fa fa-copyright"></i> Copyright Reserved Petronas Trading @ 2018. Best viewed using Google Chrome's web browser.</p>
 	</footer>
 
-
-	<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-    <script src="./js/jquery-3.2.1.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/main.js"></script>
-
     <script type="text/javascript">
 		var selects = document.querySelectorAll('select');
 
@@ -677,12 +702,6 @@ $CategoryArr = $allTicket->getAllCategory();
 		        }
 		    });
 		}
-
-		// $(function() {
-		// 	$('#datetimepickerIC<?php echo $ticket->getTicketID(); ?>').datetimepicker({
-		// 		format : 'YYYY-MM-DD HH:mm'
-		// 	});
-		// });
 
     </script>
 </body>

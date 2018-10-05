@@ -63,7 +63,8 @@ $state 	  = $user->getState();
 	  		//(urlParams.get('status') === "error") ? alertify.error('Invalid account') : alertify.success('Register success'); //alert('Invalid account'); 
 	  		if (urlParams.get('status') === "error"){
 	  			//alert("error");
-	  			alertify.warning('Please fill in all the required field!');
+	  			//alertify.warning('Please fill in all the required field!');
+	  			alertify.error('Please fill in all the required field!');
 	  		} else if (urlParams.get('status') === "open_ticket_failed"){
 	  			alertify.error('Create ticket failed!');
 	  		} else if (urlParams.get('status') === "log_ticket_failed"){

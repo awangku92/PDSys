@@ -288,7 +288,84 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 			$status = "updated";
 		} else {
 			//else log failed, delete ticket n return failed
-			$status = "error_update";
+			$status = "log_ticket_failed";
+		}
+    }else{
+    	$status = "error_update";
+    }
+
+	//return to URL
+	header("Location: ".$_POST['URL']."?status=$status");
+	die();
+} else if ( strpos($operation, 'UpdateIncompleteTicket') !== false ){
+	//do update postpone logic here
+	require_once __DIR__ . '/TicketController.php';
+
+	$TicketController = new TicketController();
+
+	//get $_post
+	$TicketID 	   = $_POST['ticketID'];
+	$UserID 	   = $_POST['userID'];
+	$DateTime      = $_POST['dateTime'];
+	$CategoryID    = $_POST['category'];
+	$Detail  	   = $_POST['detail']; 
+	//$StatusID 	   = $TicketController->getStatusID($_POST['status']); //get statusID from status
+	$UIDContractor = $_POST['uidContractorIC'];
+	$PostponeDateTime = $_POST['postponeDateTimeIC'];
+	$IncompleteReason = $_POST['incompleteReason'];
+	$StatusID  		  = 'IC';
+
+	// //var_dump($UIDContractor);
+
+	if ($PostponeDateTime == '' || $IncompleteReason == '' || $Detail == ''){
+		$status = "error_update";
+	}else{
+		$boolLogTicket 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $PostponeDateTime, $IncompleteReason);
+	}
+
+	//success create and log, then return to view
+	if ($boolLogTicket){
+		//success log, no need to do anything
+		$status = "updated";
+	} else {
+		//else log failed, delete ticket n return failed
+		$status = "error_update";
+	}
+
+	//return to URL
+	header("Location: ".$_POST['URL']."?status=$status");
+	die();
+} else if ( strpos($operation, 'doneIncompleteTicket') !== false ){
+	//do update postpone logic here
+	require_once __DIR__ . '/TicketController.php';
+
+	$TicketController = new TicketController();
+
+	//get $_post
+	$TicketID 	   = $_POST['ticketID'];
+	$StatusID 	   = "D";
+	$UserID 	   = $_POST['userID'];
+	$DateTime      = $_POST['dateTime'];
+	$CategoryID    = $_POST['category'];
+	$Detail  	   = $_POST['detail']; 
+	$UIDContractor = $_POST['uidContractorIC'];
+	$postponeDateTime = $_POST['postponeDateTimeIC'];
+	$reason = $_POST['incompleteReason'];
+
+
+	//update ticket
+    $boolTicket 	= $TicketController->updateTicketStatus($TicketID, $StatusID);
+
+    if ($boolTicket){
+	    //update logtickets
+		$boolLogTicket 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+		//success create and log, then return to view
+		if ($boolLogTicket){
+			//success log, no need to do anything
+			$status = "updated";
+		} else {
+			//else log failed, delete ticket n return failed
+			$status = "log_ticket_failed";
 		}
     }else{
     	$status = "error_update";
