@@ -41,16 +41,34 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	require __DIR__ . '/../model/UserModelClass.php';
 	require __DIR__ . '/GeneralController.php';
 
+	$branch = NULL;
+	$companyname = NULL;
+	$compaddr1 = NULL;
+	$compaddr2 = NULL;
+	$postalcode = NULL;
+
+
 	if ($_POST['usertype'] === "HQ") {
 		$fullname    = $_POST['fullnameHQ'];
 		$contactno   = $_POST['contactnoHQ'];
 		$email       = $_POST['emailHQ'];
 		$password    = $_POST['passwordHQ'];
-	} else {
-		$fullname    = $_POST['fullname'];
-		$contactno   = $_POST['contactno'];
-		$email       = $_POST['email'];
-		$password    = $_POST['password'];
+	} else if ($_POST['usertype'] === "D"){
+		$fullname    = $_POST['fullnameD'];
+		$contactno   = $_POST['contactnoD'];
+		$email       = $_POST['emailD'];
+		$password    = $_POST['passwordD'];
+		$compaddr1   = $_POST['compaddr1D'];
+		$compaddr2   = $_POST['compaddr2D'];
+		$postalcode  = $_POST['postalcodeD'];
+	} else { // $_POST['usertype'] === "C"
+		$fullname    = $_POST['fullnameC'];
+		$contactno   = $_POST['contactnoC'];
+		$email       = $_POST['emailC'];
+		$password    = $_POST['passwordC'];
+		$compaddr1   = $_POST['compaddr1C'];
+		$compaddr2   = $_POST['compaddr2C'];
+		$postalcode  = $_POST['postalcodeC'];
 	}
 
 	if ($_POST['usertype'] === "D") {
@@ -60,9 +78,6 @@ if ( strpos($operation, 'LogIn') !== false  ) {
 	}
 
 	$usertype    = $_POST['usertype'];
-	$compaddr1   = $_POST['compaddr1'];
-	$compaddr2   = $_POST['compaddr2'];
-	$postalcode  = $_POST['postalcode'];
 
 	//hardcode region, get from state
 	$state       = $_POST['state'];
@@ -191,7 +206,7 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
 	$UserID 	   = $_POST['userID'];
 	$DateTime      = $_POST['dateTime'];
 	$Detail  	   = $_POST['detail']; 
-	$StatusID 	   = "P";
+	$StatusID 	   = "IP"; //change from postpone to IP
 	$UIDContractor = $_POST['uidContractor'];
 	$postponeDateTime = $_POST['postponeDateTime'];
 
@@ -201,7 +216,16 @@ else if ( strpos($operation, 'OpenTicket') !== false ){
     if ($postponeDateTime == '' ){
 		$status = "error_update";
 	}else{
-		$boolLogTickets 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+		//update ticket status and contractor
+		$boolTicketStatus	= $TicketController->updateTicketStatus($TicketID, $StatusID);
+		$boolTicketUID	 	= $TicketController->updateTicketUID($TicketID, $UIDContractor);
+
+		if ($boolTicketUID && $boolTicketStatus){
+			$boolLogTickets 	= $TicketController->logTickets($TicketID, $UserID, $DateTime, $StatusID, $UIDContractor, $postponeDateTime, $reason);
+		} else {
+			$status = "error_update";
+		}
+		
 	}
 
 	//success create and log, then return to view

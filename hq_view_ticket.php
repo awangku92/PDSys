@@ -115,7 +115,8 @@ $ticketArr = $allTicket->getAllTicket();
 						    <thead>
 						      <tr>
 						        <th>ID</th>
-						        <th>Date & Time</th>
+						        <th>Date & Time Ticket created</th>
+						        <th>Appoiment Date & Time</th>
 						        <th>Status</th>
 						      </tr>
 						    </thead>
@@ -146,7 +147,7 @@ $ticketArr = $allTicket->getAllTicket();
 								    	$FullName = $contractor["FullName"];
 										$Contact = $contractor["Contact"];
 
-										//$appoimentDateTime = $allTicket->getAppoimentDateTime($ticket->getTicketID());
+										$appoimentDateTime = $allTicket->getAppoimentDateTime($ticket->getTicketID());
 
 								    	//case for status
 									    switch ($status) {
@@ -178,6 +179,7 @@ $ticketArr = $allTicket->getAllTicket();
 							   	<!-- <?php $statusStr ?> -->
 							        <td><?php echo $ticket->getTicketID() ?></td> <!-- ID -->
 							        <td><?php echo $ticket->getDateTime() ?></td> <!-- Date & Time -->
+							        <td><?php echo $appoimentDateTime ?></td>
 							        <td><?php echo $status ?></td> <!-- Status -->
 							    </tr>
 
@@ -682,11 +684,58 @@ $ticketArr = $allTicket->getAllTicket();
 																	</div>
 																</div>
 																<hr>
+																<p>POSTPONE DATE</p><br>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">NEXT APPOINMENT DATE & TIME</label>
+																	<div class="col-sm-6">
+																		<script type="text/javascript">
+																			$(function() {
+																				$('#datetimepickerC<?php echo $ticket->getTicketID(); ?>').datetimepicker({
+																					format : 'YYYY-MM-DD HH:mm'
+																				});
+																			});
+																		</script>
+																		<div class="form-group">
+															                <div class='input-group date' id='datetimepickerC<?php echo $ticket->getTicketID(); ?>'>
+															                    <input type='text' class="form-control" name="postponeDateTime" value="" />
+															                    <span class="input-group-addon">
+															                        <span class="glyphicon glyphicon-calendar"></span>
+															                    </span>
+															                </div>
+															            </div>
+																	</div>
+																</div>
+																<hr>
+																<p>ASSIGN NEW CONTRACTOR</p><br>
+																<div class="form-group row">
+																	<label class="col-sm-2 col-form-label">COMPANY NAME</label>
+																	<div class="col-sm-6">
+																		<select class="form-control" id="companyNameIP-<?php echo $ticket->getTicketID(); ?>">
+																			<option hidden selected><?php echo $CompanyName ?></option>
+ 																			<?php 
+																			    //get companyName by state then loop the option
+ 																				$companyNameArr = $allUser->getCompany($state);
+ 																				//var_dump($companyNameArr);
+ 																				for ($i = 0; $i < $companyNameArr->num_rows; $i++){
+
+																					$company = $companyNameArr->fetch_array(MYSQLI_ASSOC);
+																					//var_dump($company);
+																			    	$uidC 	 = $company["UID"];
+																					?>
+																						<option value="<?php echo $company["UID"] ?>"><?php echo $company["CompanyName"] ?></option>
+																					<?php
+																				}
+																			//}
+																			?>
+																		</select>
+																	</div>
+																</div>
+																<hr>
 																<p>CONTRACTOR'S DETAILS</p><br>
 																<div class="form-group row">
 																	<label class="col-sm-2 col-form-label">CONTRACTOR ID</label>
 																	<div class="col-sm-6">
-																		<input class="form-control" type="text" name="uidContractor" value="<?php echo $ticket->getUIDContractor() ?>" readonly>
+																		<input class="form-control" type="text" name="uidContractorOld" value="<?php echo $ticket->getUIDContractor() ?>" readonly>
 																	</div>
 																</div>
 																<div class="form-group row">
@@ -717,17 +766,7 @@ $ticketArr = $allTicket->getAllTicket();
 																		}
 																	?>
 																	<label class="col-sm-2 col-form-label">APPOINMENT DATE & TIME</label>
-																	<!-- <div class="col-sm-6">
-																		<input class="form-control" type="date" name="appoimentDate" value="<?php //echo $date ?>">
-																	</div> -->
 																	<div class="col-sm-6">
-<!-- 																		<script type="text/javascript">
-																			$(function() {
-																				$('#datetimepicker<?php echo $ticket->getTicketID(); ?>').datetimepicker({
-																					format : 'YYYY-MM-DD HH:mm'
-																				});
-																			});
-																		</script> -->
 																		<div class="form-group">
 															                <div class='input-group date' id='datetimepicker<?php echo $ticket->getTicketID(); ?>'>
 															                    <input type='text' class="form-control" name="appoimentDateTime" value="<?php echo $dateTime ?>" />
@@ -740,9 +779,10 @@ $ticketArr = $allTicket->getAllTicket();
 																</div>
 																<!-- hidden input -->
 																<input class="form-control" type="hidden" name="URL" value="/PDSys/hq_view_ticket.php" readonly>
+																<input class="form-control" type="hidden" id="uidContractor" name="uidContractor" value="<?php echo $company["UID"] ?>" readonly>
 															</div>
 															<div class="modal-footer">
-																<!-- <button type="submit" class="btn tckt-btn" value="UpdatePostponeTicket" name="operation">Save</button> -->
+																<button type="submit" class="btn tckt-btn" value="UpdatePostponeTicket" name="operation">Save</button>
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 															</div>
 														</form>

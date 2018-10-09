@@ -86,7 +86,7 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 						    <thead>
 						      <tr>
 						        <th>ID</th>
-						        <th>Date & Time</th>
+						        <th>Appoiment Date & Time</th>
 						        <th>Status</th>
 						      </tr>
 						    </thead>
@@ -155,7 +155,8 @@ $ticketArr = $allTicket->getTickets($user->getUID());
 							    <tr id="<?php echo $id ?>" data-toggle="modal" data-target="<?php echo $modal.$ticket->getTicketID() ?>">
 							   	<!-- <?php $statusStr ?> -->
 							        <td><?php echo $ticket->getTicketID() ?></td> <!-- ID -->
-							        <td><?php echo $ticket->getDateTime() ?></td> <!-- Date & Time -->
+							        <!-- <td><?php //echo $ticket->getDateTime() ?></td> --> <!-- Date & Time -->
+									<td><?php echo $dateTime ?></td>
 							        <td><?php echo $status ?></td> <!-- Status -->
 							    </tr>
 

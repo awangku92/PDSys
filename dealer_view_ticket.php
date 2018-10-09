@@ -636,7 +636,7 @@ $CategoryArr = $allTicket->getAllCategory();
 
 															</div>
 															<div class="modal-footer">
-																<button type="submit" class="btn tckt-btn" value="DoneTicket" name="operation" style="float: left; margin-left: 0px">Done</button>
+																<!-- <button type="submit" class="btn tckt-btn" value="DoneTicket" name="operation" style="float: left; margin-left: 0px">Done</button> -->
 																<button type="submit" class="btn tckt-btn" value="UpdatePostponeTicket" name="operation">Save</button>
 																<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 																<!-- save button -->

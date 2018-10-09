@@ -118,31 +118,31 @@
 							<div id="dealer" style="display: none;">
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_user.png"></span>
-									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullname">
+									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullnameD">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_mail.png"></span>
-									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="email">
+									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="emailD">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_lock.png"></span>
-									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="password">
+									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="passwordD">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_home.png"></span>
-									<input type="text" class="form-control" placeholder="Branch Name" aria-describedby="basic-addon1" name="branch">
+									<input type="text" class="form-control" placeholder="Branch Name" aria-describedby="basic-addon1" name="branchD">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate.png"></span>
-									<input type="text" class="form-control" placeholder="Address 1" aria-describedby="basic-addon1" name="compaddr1">
+									<input type="text" class="form-control" placeholder="Address 1" aria-describedby="basic-addon1" name="compaddr1D">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate.png"></span>
-									<input type="text" class="form-control" placeholder="Address 2" aria-describedby="basic-addon1" name="compaddr2">
+									<input type="text" class="form-control" placeholder="Address 2" aria-describedby="basic-addon1" name="compaddr2D">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate1.png"></span>
-									<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="basic-addon1" name="postalcode">
+									<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="basic-addon1" name="postalcodeD">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_company.png"></span>
@@ -181,38 +181,38 @@
 								</div> -->
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_tel.png"></span>
-									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactno">
+									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactnoD">
 								</div>
 							</div>
 
 							<div id="contractor" style="display: none;">
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_user.png"></span>
-									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullname">
+									<input type="text" class="form-control" placeholder="Full Name" aria-describedby="basic-addon1" name="fullnameC">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_mail.png"></span>
-									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="email">
+									<input type="email" class="form-control" placeholder="Email" aria-describedby="basic-addon1" name="emailC">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_lock.png"></span>
-									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="password">
+									<input type="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1" name="passwordC">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_home.png"></span>
-									<input type="text" class="form-control" placeholder="Company Name" aria-describedby="basic-addon1" name="companyname">
+									<input type="text" class="form-control" placeholder="Company Name" aria-describedby="basic-addon1" name="companynameC">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate.png"></span>
-									<input type="text" class="form-control" placeholder="Address 1" aria-describedby="basic-addon1" name="compaddr1">
+									<input type="text" class="form-control" placeholder="Address 1" aria-describedby="basic-addon1" name="compaddr1C">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate.png"></span>
-									<input type="text" class="form-control" placeholder="Address 2" aria-describedby="basic-addon1" name="compaddr2">
+									<input type="text" class="form-control" placeholder="Address 2" aria-describedby="basic-addon1" name="compaddr2C">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_locate1.png"></span>
-									<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="basic-addon1" name="postalcode">
+									<input type="text" class="form-control" placeholder="Postal Code" aria-describedby="basic-addon1" name="postalcodeC">
 								</div>
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_company.png"></span>
@@ -251,7 +251,7 @@
 								</div> -->
 								<div class="input-group col-sm-7">
 									<span class="input-group-addon" id="basic-addon1"><img src="./icon/icon_tel.png"></span>
-									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactno">
+									<input type="text" class="form-control" placeholder="Contact No" aria-describedby="basic-addon1" name="contactnoC">
 								</div>
 							</div>
 
